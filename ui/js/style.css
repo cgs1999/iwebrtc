@@ -1,0 +1,25 @@
+#tb-ct {
+	border: 0;
+}
+#wbs-ct {
+	border: 0;
+	float: left;
+	width: 75%;
+	height: 100%;
+}
+#usrs-ct {
+	border: 0;
+	float: right;
+	width: 24%;
+	height: 100%;
+	padding: .2em;
+	overflow: auto;
+}
+#usrs-ct h3 {
+	margin: 0;
+	padding: 0.4em;
+	text-align: center;
+}
+#usrs-ct center {
+    padding: 2px
+}
