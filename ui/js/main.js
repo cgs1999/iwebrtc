@@ -1,4 +1,4 @@
-var ws_serv = 'ws://192.168.1.104:1339';
+var ws_serv = 'ws://127.0.0.1:1339';
 
 socket = null;
 
