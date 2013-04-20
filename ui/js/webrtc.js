@@ -1,4 +1,8 @@
 ﻿var ice_servs = { "iceServers": [{ "url": "stun:stun.l.google.com:19302"}] };
+//var ice_servs = { "iceServers": [{ "url": "turn:42.96.140.164:3478"}] };
+var constraints = { video: { mandatory: { maxWidth: 320, maxHeight: 240, maxFrameRate: 5} }, audio: true };
+//https required
+//var constraints = { video: { mandatory: { chromeMediaSource: 'screen'} } };
 
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 window.URL = window.URL || window.webkitURL;
@@ -12,7 +16,7 @@ rtc.localstream = null;
 rtc.init = function (fn) {
     rtc.localvideo = ui.add_usr(myname).find('video')[0];
     navigator.getUserMedia(
-        { video: { mandatory: { maxWidth: 320, maxHeight: 240, maxFrameRate: 5} }, audio: true },
+        constraints,
         function (stream) {
             console.log(stream);
             rtc.localstream = stream;
