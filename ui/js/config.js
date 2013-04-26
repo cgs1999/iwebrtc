@@ -38,6 +38,44 @@ function applyIf(a, b) {
     return a;
 }
 
+Date.prototype.format = function (fmt) {
+    var y = this.getFullYear().toString();
+    var m = (this.getMonth() + 1).toString();
+    var d = this.getDate().toString();
+    var h = this.getHours().toString();
+    var i = this.getMinutes().toString();
+    var s = this.getSeconds().toString();
+
+    var out = '';
+    for (var j = 0; j < fmt.length; j++) {
+        var c = fmt.charAt(j);
+        switch (c) {
+            case 'Y':
+                out += y;
+                break;
+            case 'm':
+                out += (m.length > 1) ? m : ('0' + m);
+                break;
+            case 'd':
+                out += (d.length > 1) ? d : ('0' + d);
+                break;
+            case 'H':
+                out += (h.length > 1) ? h : ('0' + h);
+                break;
+            case 'i':
+                out += (i.length > 1) ? i : ('0' + i);
+                break;
+            case 's':
+                out += (s.length > 1) ? s : ('0' + s);
+                break;
+            default:
+                out += c;
+                break;
+        }
+    }
+    return out;
+}
+
 var request = [];
 (function(){
     var s = location.search.substr(1);
