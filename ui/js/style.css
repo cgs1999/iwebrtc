@@ -7,13 +7,32 @@
 	width: 75%;
 	height: 100%;
 }
+#wbs-tabs #tabs-0 div {
+    word-wrap: break-word;
+}
 #chat-ct {
+}
+#chat-history-ct {
+    overflow-y: scroll;
+}
+#chat-history-ct .msg-title{}
+#chat-history-ct .msg-system {
+    color: red;
+}
+#chat-history-ct .msg-myself {
+    color: blue;
+}
+#chat-history-ct .msg-user {
+    color: green;
 }
 #chat-history-ct .msg-item {
     padding-left: 5px;
     padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#chat-history-ct .msg-item-hover {
+    background-color: #eeeeee;
 }
 #chat-speak-ct {
     padding-left: 5px;

@@ -38,6 +38,18 @@ function applyIf(a, b) {
     return a;
 }
 
+String.prototype.format = function () {
+    var s = this.toString();
+    for (var i = 0; i < 10; i++) {
+        var pattern = '{' + i + '}';
+        var value = (arguments[i] == undefined) ? '' : arguments[i];
+        while (s.indexOf(pattern) != -1) {
+            s = s.replace(pattern, value);
+        }
+    }
+    return s;
+}
+
 Date.prototype.format = function (fmt) {
     var y = this.getFullYear().toString();
     var m = (this.getMonth() + 1).toString();

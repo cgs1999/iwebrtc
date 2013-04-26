@@ -25,7 +25,10 @@ rtc.init = function (fn) {
 
             if (fn) fn();
         },
-        function (e) { console.log(e); }
+        function (e) {
+            chat.sys(strings.media_err);
+            console.log(e);
+        }
     );
 }
 rtc.signal = function (data) {
