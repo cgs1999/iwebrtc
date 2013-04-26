@@ -1,11 +1,23 @@
 #tb-ct {
 	border: 0;
 }
-#wbs-ct {
+#hole-ct {
 	border: 0;
 	float: left;
 	width: 75%;
 	height: 100%;
+}
+#chat-ct {
+}
+#chat-history-ct .msg-item {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+#chat-speak-ct {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 #usrs-ct {
 	border: 0;
@@ -15,9 +27,11 @@
 	padding: .2em;
 	overflow: auto;
 }
-#usrs-ct h3 {
+#chat-ct h3, #usrs-ct h3 {
 	margin: 0;
-	padding: 0.4em;
+	padding: 0.5em;
+}
+#usrs-ct h3 {
 	text-align: center;
 }
 #usrs-ct center {
