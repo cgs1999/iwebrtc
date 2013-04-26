@@ -7,6 +7,8 @@ joined_room.no = request['no'];
 
 var joined_users = [];
 function join_user(user) {
+    chat.sys(strings.joinuser.format(user.name));
+
     user.pc = null;
     user.ui = ui.add_usr(user.name);
     user.pv = user.ui.find('video')[0];
@@ -23,6 +25,8 @@ function get_user(id) {
 function leave_user(id) {
     for (var i = 0; i < joined_users.length; i++) {
         if (joined_users[i].id == id) {
+            chat.sys(strings.leaveuser.format(joined_users[i].name));
+
             joined_users[i].pc.close();
             joined_users[i].ui.remove();
             joined_users.splice(i, 1);
@@ -36,10 +40,26 @@ function leave_room() {
         joined_users[i].ui.remove();
     }
     joined_users = [];
+    chat.sys(strings.leaveroom);
 }
 
 myid = null;
-myname = request['name'] || 'Anonymous';
+myname = request['name'] || strings.anonymous;
+
+var chat = {
+    emit: function (msg) {
+        //var dt = new Date().format('Y-m-d H:i:s');
+        var dt = new Date().format('H:i:s');
+        socket.emit('message', { event: 'chat', from: myname, time: dt, text: msg });
+        ui.add_my_msg(dt, myname, msg);
+    },
+    signal: function (data) {
+        ui.add_user_msg(data.time, data.from, data.text);
+    },
+    sys: function (msg) {
+        ui.add_sys_msg(msg);
+    }
+}
 
 var main = function () {
     rtc.init(function () {
@@ -54,26 +74,25 @@ main.connect = function () {
     socket.on('info_ok', function (data) {
         joined_room = apply(joined_room, data);
         socket.emit('join', { no: joined_room.no, name: myname });
+        chat.sys(strings.enterroom.format(joined_room.name));
+
     });
-    socket.on('join_user', function (data) {
-        console.log(data);
-        join_user(data);
-    });
+    socket.on('join_user', function (data) { join_user(data); });
 
     socket.on('join_ok', function (data) {
         for (var i = 0; i < data.length; i++) {
             rtc.startM(join_user(data[i]));
         }
     });
-    socket.on('leave_user', function (data) {
-        console.log(data);
-        leave_user(data.id);
-    });
+    socket.on('leave_user', function (data) { leave_user(data.id); });
     socket.on('leave_ok', function (data) { console.log(data); });
     socket.on('message', function (data) {
         switch (data.event) {
             case 'webrtc':
                 rtc.signal(data);
+                break;
+            case 'chat':
+                chat.signal(data);
                 break;
             default:
                 console.log(data);
