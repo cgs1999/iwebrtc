@@ -59,7 +59,7 @@ ui.add_wb = function (title) {
 }
 
 ui.add_usr = function (name) {
-    name = name || 'Anonymous';
+    name = name || strings.anonymous;
 
     var div = $(ui.usr.tpl.replace(/#\{name\}/g, name));
     $('#usrs-ct').append(div);
