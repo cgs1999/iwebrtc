@@ -38,6 +38,13 @@ function applyIf(a, b) {
     return a;
 }
 
+function extend(c, p) {
+    var o = function () { };
+    o.prototype = p.prototype;
+    c.prototype = new o();
+    c.prototype.constructor = c;
+}
+
 String.prototype.format = function () {
     var s = this.toString();
     for (var i = 0; i < 10; i++) {

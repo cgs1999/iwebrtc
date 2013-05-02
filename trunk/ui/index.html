@@ -13,8 +13,10 @@
 <script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="lang/zh_CN.js"></script>
 <script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript" src="js/ht.js"></script>
 <script type="text/javascript" src="js/ui.js"></script>
 <script type="text/javascript" src="js/webrtc.js"></script>
+<script type="text/javascript" src="js/wb.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
     $(function () {
@@ -29,21 +31,18 @@
 <div id="toolbar" class="ui-widget-header ui-corner-all">
 <button id="new-wb"></button>
 <button id="open-wb"></button>
-<input type="checkbox" id="shuffle" /><label for="shuffle">Shuffle</label>
-<span id="repeat">
-<input type="radio" id="repeat0" name="repeat" checked="checked" /><label for="repeat0">No Repeat</label>
-<input type="radio" id="repeat1" name="repeat" /><label for="repeat1">Once</label>
-<input type="radio" id="repeatall" name="repeat" /><label for="repeatall">All</label>
-</span>
 </div>
 </div>
 
-<!-- whiteboard -->
 <div id="hole-ct">
+
+<!-- whiteboard -->
 <div id="wbs-tabs">
 <ul><li><a href="#tabs-0"></a></li></ul>
 <div id="tabs-0"><div></div></div>
 </div>
+
+<!-- message -->
 <div id="chat-ct" class="ui-widget-content ui-corner-all">
 <h3 class="ui-widget-header ui-corner-all"></h3>
 <div id="chat-history-ct" class="ui-widget"></div>
