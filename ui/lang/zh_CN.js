@@ -8,6 +8,7 @@
     wb_open: '打开白板',
     wb_0_title: 'Welcome',
     wb_0_body: 'Welcome to iWebRTC Demo System',
+    wb_pen: '铅笔',
     enterroom: '您已加入会议室【{0}】',
     leaveroom: '您已离开会议室',
     joinuser: '【{0}】已加入会议',

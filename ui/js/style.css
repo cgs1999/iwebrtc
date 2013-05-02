@@ -10,8 +10,18 @@
 #wbs-tabs #tabs-0 div {
     word-wrap: break-word;
 }
-#chat-ct {
+#wbs-tabs .body{
+    padding: 0 0 !important;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
 }
+#wbs-tabs .body canvas {
+    border: 1px solid black;
+}
+#wbs-tabs .toolbar {}
+#wbs-tabs .toolbar .pen {}
+#chat-ct {}
 #chat-history-ct {
     overflow-y: scroll;
 }

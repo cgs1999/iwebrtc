@@ -2,7 +2,12 @@
     wb: {
         tabs: null,
         counter: 1,
-        tpl: "<li><a href='#{href}'>#{label}</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>"
+        title: {
+            tpl: "<li><a href='#wbs-#{id}'>#{label}</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>"
+        },
+        body: {
+            tpl: "<div id='wbs-#{id}' class='body'><div class='toolbar'><div class='shape'></div></div><canvas></canvas></div>"
+        }
     },
     usr: {
         tpl: '<div class="ui-widget-content ui-corner-all"><h3 class="ui-widget-header ui-corner-all">#{name}</h3><center><video width="320" height="240"></video></center></div>'
@@ -47,15 +52,33 @@ ui.emit_chat = function () {
 }
 
 ui.add_wb = function (title) {
-    var label = title || strings.whiteboard + ' ' + ui.wb.counter,
-	id = "wbs-" + ui.wb.counter,
-	li = $(ui.wb.tpl.replace(/#\{href\}/g, "#" + id).replace(/#\{label\}/g, label));
+    var label = title || strings.whiteboard + ' ' + ui.wb.counter;
+    var id = ui.wb.counter;
+    var li = $(ui.wb.title.tpl.replace(/#\{id\}/g, id).replace(/#\{label\}/g, label));
+    var body = $(ui.wb.body.tpl.replace(/#\{id\}/g, id));
+
+    var tpl = "<input type='radio' id='wbs-#{shape}-#{id}' class='#{shape}' name='shape'/><label for='wbs-#{shape}-#{id}'></label>";
+
+    var tbPen = $(tpl.replace(/#\{id\}/g, id).replace(/#\{shape\}/g, 'pen'));
+    body.find('.toolbar .shape').append(tbPen);
+    var tbLine = $(tpl.replace(/#\{id\}/g, id).replace(/#\{shape\}/g, 'line'));
+    body.find('.toolbar .shape').append(tbLine);
+    var tbRect = $(tpl.replace(/#\{id\}/g, id).replace(/#\{shape\}/g, 'rect'));
+    body.find('.toolbar .shape').append(tbRect);
+    body.find('.toolbar .shape').buttonset();
+    body.find('.toolbar .shape .pen').button({ text: false, label: strings.wb_pen, icons: { primary: "ui-icon-pencil"} });
+    body.find('.toolbar .shape .line').button({ text: false, label: strings.wb_pen, icons: { primary: "ui-icon-pencil"} });
+    body.find('.toolbar .shape .rect').button({ text: false, label: strings.wb_pen, icons: { primary: "ui-icon-pencil"} });
 
     ui.wb.tabs.find(".ui-tabs-nav").append(li);
-    ui.wb.tabs.append("<div id='" + id + "'></div>");
+    ui.wb.tabs.append(body);
     ui.wb.tabs.tabs("refresh");
 
+    body.find('canvas').width(body.width() - 10).height(body.height() - 42);
+
     ui.wb.counter++;
+
+    return [li, body];
 }
 
 ui.add_usr = function (name) {
@@ -88,8 +111,6 @@ ui.resize = function () {
 ui.init = function () {
     $("#new-wb").button({ text: false, label: strings.wb_new, icons: { primary: "ui-icon-document"} }).click(function () { ui.add_wb(); });
     $("#open-wb").button({ text: false, label: strings.wb_open, icons: { primary: "ui-icon-folder-open"} });
-    $("#shuffle").button();
-    $("#repeat").buttonset();
 
     ui.wb.tabs = $("#wbs-tabs").tabs({ heightStyle: "fill" });
     ui.wb.tabs.delegate("span.ui-icon-close", "click", function () {
