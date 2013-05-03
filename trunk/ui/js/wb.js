@@ -1,19 +1,55 @@
 ﻿var wbs = function () {
     var map = new HashTable();
-    var counter = 1;
+    var counter = 0;
     return {
-        get: function () {
+        add: function (id) {
+            var wb = this.create(id);
+            this.emit({ signal: 'new', 'id': id });
+            return wb;
         },
-        del: function () {
+        create: function (id) {
+            var id = id || this.id();
+            var wb = new WB(id);
+            var ux = ui.add_wb(id);
+            wb.init(ux[0], ux[1]);
+            return map.add(id, wb);
+        },
+        close: function (id) {
+        },
+        id: function () {
+            return (Math.random() * 10e17).toString();
+        },
+        get: function (id) {
+            return map.get(id);
+        },
+        del: function (id) {
+            this.close(id);
+            return this.emit({ signal: 'del', 'id': id });
         },
         emit: function (data) {
-            apply(data, { event: 'wb', uid: myid });
+            apply(data, { event: 'wbs' });
             socket.emit('message', data);
+            return this;
         },
         signal: function (data) {
+            switch (data.signal) {
+                case 'new':
+                    wbs.create(data.id);
+                    break;
+                case 'del':
+                    wbs.close(data.id);
+                    break;
+                case 'draw':
+                    var wb = wbs.get(data.id);
+                    var l = wb.getLayer(data.layer);
+                    var o = eval('new {0}()'.format(data.shape.type));
+                    l.push(o.unpack(data.shape));
+                    wb.render();
+                    break;
+            }
         }
     };
-}
+} ();
 
 function WB(id) {
     this.id = id;
@@ -21,10 +57,26 @@ function WB(id) {
     this.ctx = null;
     this.head = null;
     this.body = null;
+    this.drawMode = WB.DrawMode.Pen;
+    this.drawShape = null;
     this.layers = new HashTable();
 }
-WB.prototype.render = function () {
+WB.prototype.render = function (mousemoving) {
+    var me = this;
+    this.layers.each(function (ht, key, value) {
+        value.draw(me.ctx);
+    });
+    if (this.drawShape != null) {
+        this.drawShape.draw(me.ctx);
+    }
     return this;
+}
+WB.prototype.getLayer = function (id) {
+    var layers = this.layers;
+    if (!layers.containsKey(id)) {
+        return layers.add(id, new WB.Layer(this, id));
+    }
+    return layers.get(id);
 }
 WB.prototype.undo = function () {
     return this;
@@ -38,15 +90,61 @@ WB.prototype.clear = function () {
 WB.prototype.reset = function () {
     return this;
 }
-WB.prototype.create = function (head, body) {
+WB.prototype.init = function (head, body) {
     this.head = head;
     this.body = body;
     this.canvas = body.find('canvas')[0];
     this.ctx = this.canvas.getContext('2d');
+
+    this.canvas.onselectstart = function () { return false; }
+
+    var me = this;
+    function validDrawMode() {
+        return ((me.drawMode === WB.DrawMode.Pen)
+            || (me.drawMode === WB.DrawMode.Line)
+            || (me.drawMode === WB.DrawMode.Rect));
+    }
+
+    var capture = false;
+    this.canvas.onmousedown = function (e) {
+        if (!validDrawMode()) return;
+        capture = true;
+        me.drawShape = eval('new {0}()'.format(me.drawMode));
+        me.drawShape.parent = me.getLayer(myid);
+        me.drawShape.mousedown(e);
+    }
+    this.canvas.onmousemove = function (e) {
+        if (!validDrawMode()) return;
+        if (capture && me.drawShape) {
+            me.drawShape.mousemove(e);
+            me.render(true);
+        }
+    }
+    this.canvas.onmouseup = function (e) {
+        if (!validDrawMode()) return;
+        if (capture && me.drawShape) {
+            me.drawShape.mouseup(e);
+            me.drawShape.parent.push(me.drawShape);
+
+            wbs.emit({ signal: 'draw', id: me.id, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
+
+            me.drawShape = null;
+            me.render();
+        }
+        capture = false;
+    }
+    this.canvas.onmouseout = function (e) {
+        capture = false;
+    }
+
     return this;
 }
-WB.prototype.init = function () {
-    return this;
+
+WB.DrawMode = {
+    None: 'WB.None',
+    Pen: 'WB.Pen',
+    Line: 'WB.Line',
+    Rect: 'WB.Rect'
 }
 
 WB.Layer = function (wb, id) {
@@ -87,8 +185,8 @@ WB.Layer.prototype.draw = function (ctx) {
 }
 
 WB.Shape = function() {
-    this.width = 3;
-    this.color = 'red';
+    this.width = 2;
+    this.color = '#FF0000';
 }
 WB.Shape.prototype.stroke = function (ctx) {
     ctx.lineCap = 'round';
