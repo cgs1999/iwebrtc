@@ -94,6 +94,8 @@ main.connect = function () {
             case 'chat':
                 chat.signal(data);
                 break;
+            case 'wbs':
+                wbs.signal(data);
             default:
                 console.log(data);
                 break;

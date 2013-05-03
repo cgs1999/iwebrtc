@@ -1,7 +1,6 @@
 ﻿var ui = {
     wb: {
         tabs: null,
-        counter: 1,
         title: {
             tpl: "<li><a href='#wbs-#{id}'>#{label}</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>"
         },
@@ -51,9 +50,8 @@ ui.emit_chat = function () {
     $('#speaking').val('');
 }
 
-ui.add_wb = function (title) {
-    var label = title || strings.whiteboard + ' ' + ui.wb.counter;
-    var id = ui.wb.counter;
+ui.add_wb = function (id, title) {
+    var label = title || strings.whiteboard;
     var li = $(ui.wb.title.tpl.replace(/#\{id\}/g, id).replace(/#\{label\}/g, label));
     var body = $(ui.wb.body.tpl.replace(/#\{id\}/g, id));
 
@@ -75,8 +73,8 @@ ui.add_wb = function (title) {
     ui.wb.tabs.tabs("refresh");
 
     body.find('canvas').width(body.width() - 10).height(body.height() - 42);
-
-    ui.wb.counter++;
+    body.find('canvas')[0].setAttribute('width', body.width() - 10);
+    body.find('canvas')[0].setAttribute('height', body.height() - 42);
 
     return [li, body];
 }
@@ -99,17 +97,18 @@ ui.resize = function () {
     var h = window.innerHeight - $('#tb-ct').height() - 20;
     $('#hole-ct').height(h);
     $('#wbs-tabs').height(h - chat_height - 10);
-    ui.wb.tabs.tabs("refresh");
+    $("#wbs-tabs").tabs("refresh");
 
     $('#chat-ct').height(chat_height);
-    $('#speaking').width($('#chat-speak-ct').width() - 65);
+    $('#speaking').width($('#chat-speak-ct').width() - 75);
     $('#chat-history-ct').height(chat_height - $('#chat-speak-ct').height() - 50);
 
     $('#usrs-ct').height(h);
 }
 
 ui.init = function () {
-    $("#new-wb").button({ text: false, label: strings.wb_new, icons: { primary: "ui-icon-document"} }).click(function () { ui.add_wb(); });
+    $("#new-wb").button({ text: false, label: strings.wb_new, icons: { primary: "ui-icon-document"} })
+        .click(function () { wbs.add(); });
     $("#open-wb").button({ text: false, label: strings.wb_open, icons: { primary: "ui-icon-folder-open"} });
 
     ui.wb.tabs = $("#wbs-tabs").tabs({ heightStyle: "fill" });
@@ -117,6 +116,7 @@ ui.init = function () {
         var id = $(this).closest("li").remove().attr("aria-controls");
         $("#" + id).remove();
         ui.wb.tabs.tabs("refresh");
+        wbs.close(id);
     });
     ui.wb.tabs.first().find('.ui-tabs-nav a').html(strings.wb_0_title);
     ui.wb.tabs.first().find('div div').html(strings.wb_0_body)
