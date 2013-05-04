@@ -4,7 +4,7 @@
     return {
         add: function (id) {
             var wb = this.create(id);
-            this.emit({ signal: 'new', 'id': id });
+            this.emit({ signal: 'new', id: wb.id });
             return wb;
         },
         create: function (id) {
@@ -199,7 +199,7 @@ WB.Shape.prototype.stroke = function (ctx) {
 WB.Pen = function (p) {
     WB.Shape.call(this);
     this.parent = p;
-    this.type = 'WBPen';
+    this.type = 'WB.Pen';
     this.points = [];
 }
 extend(WB.Pen, WB.Shape);
