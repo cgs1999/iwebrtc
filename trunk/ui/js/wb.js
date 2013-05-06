@@ -3,14 +3,15 @@
     var counter = 0;
     return {
         add: function (id) {
-            var wb = this.create(id);
-            this.emit({ signal: 'new', id: wb.id });
+            var title = strings.whiteboard;
+            var wb = this.create(id, title, true);
+            this.emit({ signal: 'new', id: wb.id, 'title': title });
             return wb;
         },
-        create: function (id) {
+        create: function (id, title, closable) {
             var id = id || this.id();
             var wb = new WB(id);
-            var ux = ui.add_wb(id);
+            var ux = ui.add_wb(id, title, closable);
             wb.init(ux[0], ux[1]);
             return map.add(id, wb);
         },
@@ -34,7 +35,7 @@
         signal: function (data) {
             switch (data.signal) {
                 case 'new':
-                    wbs.create(data.id);
+                    wbs.create(data.id, data.title, false);
                     break;
                 case 'del':
                     wbs.close(data.id);
@@ -60,6 +61,7 @@ function WB(id) {
     this.drawMode = WB.DrawMode.Pen;
     this.drawShape = null;
     this.layers = new HashTable();
+    this.color = '#ff0000';
 }
 WB.prototype.render = function (mousemoving) {
     var me = this;
@@ -96,9 +98,20 @@ WB.prototype.init = function (head, body) {
     this.canvas = body.find('canvas')[0];
     this.ctx = this.canvas.getContext('2d');
 
+    var me = this;
+
+    body.find('.toolbar .color-sel input').spectrum("set", me.color);
+    body.find('.toolbar .color-sel input').spectrum({
+        beforeShow: function () {
+            $(this).spectrum("set", me.color);
+        },
+        change: function (cr) {
+            me.color = cr.toHexString();
+        }
+    });
+
     this.canvas.onselectstart = function () { return false; }
 
-    var me = this;
     function validDrawMode() {
         return ((me.drawMode === WB.DrawMode.Pen)
             || (me.drawMode === WB.DrawMode.Line)
@@ -111,6 +124,8 @@ WB.prototype.init = function (head, body) {
         capture = true;
         me.drawShape = eval('new {0}()'.format(me.drawMode));
         me.drawShape.parent = me.getLayer(myid);
+        me.drawShape.color = me.color;
+        console.log(me.color);
         me.drawShape.mousedown(e);
     }
     this.canvas.onmousemove = function (e) {
