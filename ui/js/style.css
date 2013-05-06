@@ -22,7 +22,8 @@ body {
 #wbs-tabs .body canvas {
     border: 1px solid black;
 }
-#wbs-tabs .toolbar {}
+#wbs-tabs .toolbar { padding-left: .2em; padding-right: .7em; }
+#wbs-tabs .toolbar .shape { float: left; padding-left: .2em; }
 #wbs-tabs .toolbar .pen {}
 #chat-ct {}
 #chat-history-ct {
