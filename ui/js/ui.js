@@ -37,6 +37,17 @@ ui.emit_chat = function () {
     $('#speaking').val('');
 }
 
+ui.active_wb = function (index) {
+    console.log(index);
+    $("#wbs-tabs").tabs("option", "active", index || 0);
+},
+
+ui.remove_wb = function (head, body) {
+    head.remove();
+    body.remove();
+    $("#wbs-tabs").tabs("refresh");
+},
+
 ui.add_wb = function (id, title, closable) {
     var label = title || strings.whiteboard;
     var tpl = "<li><a href='#wbs-#{id}'>#{label}</a><span class='ui-icon ui-icon-close' role='presentation'></span></li>";
@@ -110,12 +121,15 @@ ui.init = function () {
         .click(function () { wbs.add(); });
     $("#open-wb").button({ text: false, label: strings.wb_open, icons: { primary: "ui-icon-folder-open"} });
 
-    $("#wbs-tabs").tabs({ heightStyle: "fill" })
+    $("#wbs-tabs").tabs({
+        heightStyle: "fill",
+        activate: function (e, ui) {
+            console.log($(ui.newTab[0]).find('span').css('display'), ui.newPanel[0].id);
+        }
+    })
     .delegate("span.ui-icon-close", "click", function () {
-        var id = $(this).closest("li").remove().attr("aria-controls");
-        $("#" + id).remove();
-        $("#wbs-tabs").tabs("refresh");
-        wbs.close(id);
+        var id = $(this).closest("li").attr("aria-controls");
+        wbs.del(id.substr(4));
     });
     $("#wbs-tabs").first().find('.ui-tabs-nav a').html(strings.wb_0_title);
     $("#wbs-tabs").first().find('div div').html(strings.wb_0_body)
