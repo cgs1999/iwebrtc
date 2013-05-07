@@ -4,18 +4,27 @@
     return {
         add: function (id) {
             var title = strings.whiteboard;
-            var wb = this.create(id, title, true);
-            this.emit({ signal: 'new', id: wb.id, 'title': title });
+            var wb = this.create(myid, id, title, true);
+            this.emit({ signal: 'new', id: wb.id, 'title': title, creater: wb.creater });
             return wb;
         },
-        create: function (id, title, closable) {
+        create: function (creater, id, title, closable) {
             var id = id || this.id();
             var wb = new WB(id);
+            wb.creater = creater;
             var ux = ui.add_wb(id, title, closable);
             wb.init(ux[0], ux[1]);
-            return map.add(id, wb);
+            map.add(id, wb);
+            ui.active_wb(map.getCount());
+            return wb;
         },
         close: function (id) {
+            var wb = this.get(id);
+            if (wb) {
+                wb.head.remove();
+                wb.body.remove();
+                map.removeAtKey(id);
+            }
         },
         id: function () {
             return (Math.random() * 10e17).toString();
@@ -35,7 +44,7 @@
         signal: function (data) {
             switch (data.signal) {
                 case 'new':
-                    wbs.create(data.id, data.title, false);
+                    wbs.create(data.creater, data.id, data.title, false);
                     break;
                 case 'del':
                     wbs.close(data.id);
@@ -55,6 +64,7 @@
 function WB(id) {
     this.id = id;
     this.canvas = null;
+    this.creater = '';
     this.ctx = null;
     this.head = null;
     this.body = null;
