@@ -1,7 +1,34 @@
 var port = 1339;
-var io = require('socket.io').listen(port);
+var root = 'E:/project/iwebrtc/ui';
+
+var app = require('http').createServer(handler);
+var io = require('socket.io').listen(app);
+var fs = require('fs');
 
 console.log('Listening at: ws://0.0.0.0:' + port);
+
+app.listen(port);
+
+function handler(req, res) {
+	var url = req.url.split('?')[0];
+	if (/\/$/.test(url)) {
+		url += 'index.html';
+	}
+	var path = root + url;
+	console.log(path);
+	fs.readFile(path, function(err, data){
+		if (err) {
+			res.writeHead(500);
+			return res.end('Error loading ' + url);
+		}
+		var o = {};
+		if (/html$/.test(url)) {
+			o['Content-Type'] = 'text/html';
+		}
+		res.writeHead(200, o);
+		res.end(data);
+	});
+}
 
 var room_no = -1;
 var rooms = [];
