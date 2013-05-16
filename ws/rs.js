@@ -10,19 +10,23 @@ console.log('Listening at: ws://0.0.0.0:' + port);
 app.listen(port);
 
 function handler(req, res) {
-	var url = req.url.split('?')[0];
-	if (/\/$/.test(url)) {
-		url += 'index.html';
+	var url = require('url').parse(req.url, true);
+	var pathname = url.pathname;
+	if (/\/$/.test(pathname)) {
+		pathname += 'index.html';
 	}
-	var path = root + url;
-	console.log(path);
+	if (req.method == 'POST') {
+		return;
+	}
+	var path = root + pathname;
+	//console.log(req.method);
 	fs.readFile(path, function(err, data){
 		if (err) {
 			res.writeHead(500);
 			return res.end('Error loading ' + url);
 		}
 		var o = {};
-		if (/html$/.test(url)) {
+		if (/html$/.test(pathname)) {
 			o['Content-Type'] = 'text/html';
 		}
 		res.writeHead(200, o);
