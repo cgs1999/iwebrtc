@@ -4,6 +4,9 @@ var root = 'E:/project/iwebrtc/ui';
 var app = require('http').createServer(handler);
 var io = require('socket.io').listen(app);
 var fs = require('fs');
+var formidable = require('formidable');
+var util = require('util');
+var unoconv = require('unoconv');
 
 console.log('Listening at: ws://0.0.0.0:' + port);
 
@@ -16,6 +19,25 @@ function handler(req, res) {
 		pathname += 'index.html';
 	}
 	if (req.method == 'POST') {
+		if (pathname == '/unoconv') {
+			var form = new formidable.IncomingForm();
+			form.encoding = 'utf-8';
+			form.keepExtensions = true;
+			form.maxFieldsSize = 2 * 1024 * 1024;
+			
+			form.parse(req, function(err, fields, files){
+				res.writeHead(200, {'content-type': 'text/plain'});
+				res.write('received upload:\n\n');
+				res.end(util.inspect({fields: fields, files: files}));
+			});
+			form.on('file', function(name, file) {
+				console.log(name);
+				console.log(file);
+				unoconv.convert(file.path, 'pdf', function(err, result){
+					fs.writeFile('converted.pdf', result);
+				});
+			});
+		}
 		return;
 	}
 	var path = root + pathname;
