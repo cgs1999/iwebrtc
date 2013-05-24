@@ -53,6 +53,7 @@
   <ItemGroup>
     <Content Include="images\webcam.jpg" />
     <Content Include="index.html" />
+    <Content Include="room.html" />
     <Content Include="jquery\jquery-1.9.1.min.js" />
     <Content Include="jquery\jquery.cookies.2.2.0.min.js" />
     <Content Include="jquery\themes\base\images\animated-overlay.gif" />
