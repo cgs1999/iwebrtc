@@ -1,0 +1,514 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3E186329-127E-4A07-BF9D-E21B04FBC633}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ui_extjs</RootNamespace>
+    <AssemblyName>ui-extjs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\store\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="app.js" />
+    <Content Include="app\controller\Main.js" />
+    <Content Include="app\view\Viewport.js" />
+    <Content Include="lib\config.js" />
+    <Content Include="extjs-4.2.1\ext-all.js" />
+    <Content Include="extjs-4.2.1\resources\css\ext-all-neptune.css" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\ext-theme-neptune-all.css" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn-group\btn-group-default-framed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn-group\btn-group-default-framed-notitle-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn-group\btn-group-default-framed-notitle-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn-group\btn-group-default-framed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-large-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-medium-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-small-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-large-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-medium-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-default-toolbar-small-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-disabled-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-disabled-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-focus-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-focus-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-focus-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-focus-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-over-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-over-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-pressed-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-pressed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-pressed-fbg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\btn\btn-plain-toolbar-small-pressed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-large-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-medium-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-small-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-large-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-medium-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\default-toolbar-small-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-large-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-medium-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-s-arrow-b-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-s-arrow-b.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-s-arrow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\button\plain-toolbar-small-s-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\datepicker\arrow-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\datepicker\arrow-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\datepicker\month-arrow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\dd\drop-add.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\dd\drop-no.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\dd\drop-yes.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\editor\tb-sprite.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\fieldset\collapse-tool.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\checkbox.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\clear-trigger-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\clear-trigger.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\date-trigger-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\date-trigger.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\exclamation.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\radio.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\search-trigger-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\search-trigger.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\spinner-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\spinner.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\trigger-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\form\trigger.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid-row-editor-buttons\grid-row-editor-buttons-default-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid-row-editor-buttons\grid-row-editor-buttons-default-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid-row-editor-buttons\grid-row-editor-buttons-default-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid-row-editor-buttons\grid-row-editor-buttons-default-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\col-move-bottom.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\col-move-top.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\columns.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\dd-insert-arrow-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\dd-insert-arrow-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\dirty-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\dirty.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\drop-no.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\drop-yes.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\group-by.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\group-collapse.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\group-expand-sprite.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\group-expand.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\hd-pop.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\hmenu-asc.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\hmenu-desc.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\hmenu-lock.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\hmenu-unlock.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\loading.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\page-first.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\page-last.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\page-next.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\page-prev.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\pick-button.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\refresh.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\sort_asc.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\grid\sort_desc.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\loadmask\loading.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\checked.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\group-checked.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\menu-item-active-bg.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\menu-parent-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\menu-parent.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\scroll-bottom.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\scroll-top.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\menu\unchecked.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-collapsed-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-default-framed-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-collapsed-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel-header\panel-header-light-framed-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel\panel-default-framed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel\panel-default-framed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel\panel-light-framed-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\panel\panel-light-framed-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\shared\icon-error.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\shared\icon-info.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\shared\icon-question.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\shared\icon-warning.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\e-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\ne-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\nw-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\s-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\se-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\sizer\sw-handle.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\slider\slider-bg.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\slider\slider-thumb.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\slider\slider-v-bg.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\slider\slider-v-thumb.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-plain-scroll-bottom.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-plain-scroll-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-plain-scroll-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-plain-scroll-top.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-scroll-bottom.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-scroll-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-scroll-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab-bar\default-scroll-top.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-active-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-active-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-close.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-active-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-active-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-disabled-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-disabled-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-over-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-over-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tab\tab-default-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tip\tip-default-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tip\tip-default-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tip\tip-form-invalid-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tip\tip-form-invalid-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\toolbar\more.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\toolbar\scroll-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\toolbar\scroll-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tools\tool-sprites-dark.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tools\tool-sprites.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\arrows-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\arrows.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-above.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-add.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-append.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-below.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-between.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-no.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-over.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-under.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\drop-yes.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end-minus-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end-minus.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end-plus-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end-plus.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-end.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-line-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-line.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-minus-nl-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-minus-nl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-minus-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-minus.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-plus-nl-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-plus-nl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-plus-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-plus.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\elbow.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\folder-open-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\folder-open.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\folder-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\folder.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\leaf-rtl.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\leaf.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\tree\loading.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\util\splitter\mini-bottom.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\util\splitter\mini-left.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\util\splitter\mini-right.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\util\splitter\mini-top.png" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-bottom-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-bottom-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-collapsed-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-left-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-left-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-left-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-right-corners-rtl.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-right-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-right-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-top-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window-header\window-header-default-top-sides.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window\window-default-corners.gif" />
+    <Content Include="extjs-4.2.1\resources\ext-theme-neptune\images\window\window-default-sides.gif" />
+    <Content Include="index.html" />
+    <Content Include="lib\iwebrtc.js" />
+    <Content Include="lib\json2.js" />
+    <Content Include="lang\zh_cn.js" />
+    <Content Include="room.html" />
+    <Content Include="socketio\socket.io.js" />
+    <Content Include="socketio\socket.io.min.js" />
+    <Content Include="socketio\WebSocketMain.swf" />
+    <Content Include="socketio\WebSocketMainInsecure.swf" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>1119</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

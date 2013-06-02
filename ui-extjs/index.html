@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>iWebRTC</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" href="extjs-4.2.1/resources/css/ext-all-neptune.css"/>
+<script type="text/javascript" src="extjs-4.2.1/ext-all.js"></script>
+<script type="text/javascript" src="lib/config.js"></script>
+<script type="text/javascript" src="lang/zh_cn.js"></script>
+<script type="text/javascript">
+    Ext.application({
+        name: 'iWebRTC',
+        launch: function () {
+            Ext.create('Ext.container.Viewport', {
+                layout: {
+                    type: 'vbox',
+                    align: 'center',
+                    pack: 'center'
+                },
+                items: [{
+                    xtype: 'form',
+                    layout: 'form',
+                    bodyPadding: 10,
+                    width: 320,
+                    frame: true,
+                    title: strings.sign_title,
+                    items: [
+                        {
+                            xtype: 'combo',
+                            queryMode: 'local',
+                            valueField: 'no',
+                            displayField: 'name',
+                            name: 'no',
+                            editable: false,
+                            allowBlank: false,
+                            emptyText: strings.sign_no_empty,
+                            store: {
+                                type: 'store',
+                                fields: ['no', 'name'],
+                                data: [
+                                    { no: 0, name: 'Test Room 1' },
+                                    { no: 1, name: 'Test Room 2' },
+                                    { no: 2, name: 'Test Room 3' },
+                                    { no: 3, name: 'Test Room 4' }
+                                ]
+                            }
+                        },
+                        {
+                            xtype: 'textfield',
+                            name: 'name',
+                            allowBlank: false,
+                            emptyText: strings.sign_name_empty
+                        }
+                    ],
+                    buttons: [
+                        {
+                            text: strings.confirm,
+                            handler: function (btn) {
+                                var f = btn.up('form').getForm();
+                                if (f.isValid()) {
+                                    f.submit({
+                                        url: 'room.html',
+                                        method: 'GET',
+                                        standardSubmit: true,
+                                        target: '_blank'
+                                    });
+                                }
+                            }
+                        },
+                        {
+                            text: strings.reset,
+                            handler: function (btn) {
+                                btn.up('form').getForm().reset();
+                            }
+                        }
+                    ]
+                }]
+            });
+        }
+    });
+</script>
+</head>
+<body>
+</body>
+</html>
