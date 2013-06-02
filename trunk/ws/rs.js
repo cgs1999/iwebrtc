@@ -59,11 +59,13 @@ function handler(req, res) {
 var room_no = -1;
 var rooms = [];
 
-room_no++;
-rooms[room_no] = {};
-rooms[room_no].no = room_no;
-rooms[room_no].name = 'Test Room';
-rooms[room_no].users = [];
+for(var i=0; i<4; i++) {
+	room_no++;
+	rooms[room_no] = {};
+	rooms[room_no].no = room_no;
+	rooms[room_no].name = 'Test Room ' + (i+1);
+	rooms[room_no].users = [];
+}
 
 io.sockets.on('connection', function(socket){
 	console.log("Connection " + socket.id + " accepted.");
