@@ -243,11 +243,21 @@ Ext.define('wbs', {
             itemId: id,
             'closable': closable,
             tbar: [
-                { tooltip: strings.wb_pen, iconCls: 'tb-pen' },
-                { tooltip: strings.wb_line, iconCls: 'tb-line' },
-                { tooltip: strings.wb_rect, iconCls: 'tb-rect' },
+                {
+                    tooltip: strings.wb_pen, iconCls: 'tb-pen',
+                    handler: function () { wb.drawMode = WB.DrawMode.Pen; }
+                },
+                {
+                    tooltip: strings.wb_line, iconCls: 'tb-line',
+                    handler: function () { wb.drawMode = WB.DrawMode.Line; }
+                },
+                {
+                    tooltip: strings.wb_rect, iconCls: 'tb-rect',
+                    handler: function () { wb.drawMode = WB.DrawMode.Rect; }
+                },
                 '-',
                 {
+                    itemId: 'wb-tb-color',
                     menu: {
                         xtype: 'colormenu',
                         value: wb.color.substr(1)
@@ -295,10 +305,12 @@ Ext.define('wbs', {
                 break;
             case 'draw':
                 var wb = this.get(data.id);
-                var l = wb.getLayer(data.layer);
-                var o = Ext.create(data.shape.type);
-                l.push(o.unpack(data.shape));
-                wb.render();
+                if (wb) {
+                    var l = wb.getLayer(data.layer);
+                    var o = Ext.create(data.shape.type);
+                    l.push(o.unpack(data.shape));
+                    wb.render();
+                }
                 break;
         }
     }
@@ -324,11 +336,13 @@ Ext.define('WB', {
         this.drawShape = null;
         this.drawMode = WB.DrawMode.Pen;
         this.layers = new Ext.util.HashMap();
-        this.color = '#FF0000';
+        if (this.creater == myid) this.color = '#FF0000';
+        else this.color = '#0000FF';
     },
 
     render: function (mousemoving) {
         var me = this;
+        me.ctx.clearRect(0, 0, me.canvas.width, me.canvas.height);
         me.layers.each(function (key, val) {
             val.draw(me.ctx);
         });
@@ -358,8 +372,12 @@ Ext.define('WB', {
     init: function (panel) {
         var me = this;
 
+        panel.wb = me;
         me.tab = panel;
         me.canvas = panel.el.dom.getElementsByTagName('canvas')[0];
+        panel.down('#wb-tb-color').on('render', function (c) {
+            c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
+        });
         panel.on('resize', function (c, w, h) {
             me.canvas.setAttribute('width', w);
             me.canvas.setAttribute('height', h);
@@ -534,6 +552,130 @@ Ext.define('WB.Pen', {
 
     mouseup: function (e) {
         this.points.push({ x: e.offsetX, y: e.offsetY });
+        return this;
+    }
+});
+
+Ext.define('WB.Line', {
+    extend: 'WB.Shape',
+
+    statics: {
+        Type: 'WB.Line'
+    },
+
+    constructor: function (config) {
+        this.points = [];
+        this.callParent(arguments);
+    },
+
+    pack: function () {
+        return {
+            type: WB.Line.Type,
+            width: this.width,
+            color: this.color,
+            points: this.points
+        };
+    },
+
+    unpack: function (o) {
+        this.width = o.width;
+        this.color = o.color;
+        this.points = o.points;
+        return this;
+    },
+
+    draw: function (ctx) {
+        if (this.points.length == 0) {
+            return;
+        }
+        var p = this.points[0];
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        for (var i = 1; i < this.points.length; i++) {
+            p = this.points[i];
+            ctx.lineTo(p.x, p.y);
+        }
+        this.stroke(ctx);
+        ctx.closePath();
+    },
+
+    mousedown: function (e) {
+        this.points = [];
+        this.points.push({ x: e.offsetX, y: e.offsetY });
+        return this;
+    },
+
+    mousemove: function (e) {
+        if (this.points.length > 1) this.points.pop();
+        this.points.push({ x: e.offsetX, y: e.offsetY });
+        return this;
+    },
+
+    mouseup: function (e) {
+        if (this.points.length > 1) this.points.pop();
+        this.points.push({ x: e.offsetX, y: e.offsetY });
+        return this;
+    }
+});
+
+Ext.define('WB.Rect', {
+    extend: 'WB.Shape',
+
+    statics: {
+        Type: 'WB.Rect'
+    },
+
+    constructor: function (config) {
+        this.x = 0;
+        this.y = 0;
+        this.w = 0;
+        this.h = 0;
+        this.callParent(arguments);
+    },
+
+    pack: function () {
+        return {
+            type: WB.Rect.Type,
+            width: this.width,
+            color: this.color,
+            x: this.x,
+            y: this.y,
+            w: this.w,
+            h: this.h
+        };
+    },
+
+    unpack: function (o) {
+        this.width = o.width;
+        this.color = o.color;
+        this.x = o.x;
+        this.y = o.y;
+        this.w = o.w;
+        this.h = o.h;
+        return this;
+    },
+
+    draw: function (ctx) {
+        ctx.beginPath();
+        ctx.rect(this.x, this.y, this.w, this.h);
+        this.stroke(ctx);
+    },
+
+    mousedown: function (e) {
+        this.x = e.offsetX;
+        this.y = e.offsetY;
+        return this;
+    },
+
+    mousemove: function (e) {
+        this.w = e.offsetX - this.x;
+        this.h = e.offsetY - this.y;
+        return this;
+    },
+
+    mouseup: function (e) {
+        this.w = e.offsetX - this.x;
+        this.h = e.offsetY - this.y;
         return this;
     }
 });
