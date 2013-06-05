@@ -60,7 +60,6 @@
                             split: true,
                             collapsible: true,
                             hideHeaders: true,
-                            //disableSelection: true,
                             height: 240,
                             minHeight: 200,
                             store: {

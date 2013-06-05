@@ -31,7 +31,9 @@
             },
             'viewport tabpanel colormenu': {
                 select: function (cp, color) {
-                    cp.up('button').setText(color);
+                    var cr = '#' + color;
+                    cp.up('panel').up('panel').down('#wb-tb-color').el.dom.getElementsByTagName('span')[0].style.backgroundColor = cr;
+                    cp.up('panel').up('panel').wb.color = cr;
                 }
             }
         });
