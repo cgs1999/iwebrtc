@@ -7,20 +7,24 @@
         {
             xtype: 'panel',
             layout: 'border',
-            tbar: [
-                { text: strings.option, menu: {} },
-                { text: strings.audio, menu: {} },
-                { text: strings.video, menu: {} },
-                {
-                    text: strings.wb,
-                    menu: {
-                        items: [
-                            { text: strings.wb_new, itemId: 'mnu-wb-new' },
-                            { text: strings.wb_open, itemId: 'mnu-wb-open' }
-                        ]
+            tbar: {
+                xtype: 'toolbar',
+                defaults: { scale: 'medium' },
+                items: [
+                    { text: strings.option, iconCls: 'tb-opt', menu: {} },
+                    { text: strings.audio, menu: {} },
+                    { text: strings.video, menu: {} },
+                    {
+                        text: strings.wb, iconCls: 'tb-wb',
+                        menu: {
+                            items: [
+                                { text: strings.wb_new, itemId: 'mnu-wb-new' },
+                                { text: strings.wb_open, itemId: 'mnu-wb-open' }
+                            ]
+                        }
                     }
-                }
-            ],
+                ]
+            },
             items: [
                 {
                     xtype: 'panel',

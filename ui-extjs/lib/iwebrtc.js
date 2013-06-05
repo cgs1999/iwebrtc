@@ -243,9 +243,9 @@ Ext.define('wbs', {
             itemId: id,
             'closable': closable,
             tbar: [
-                { tooltip: strings.wb_pen },
-                { tooltip: strings.wb_line },
-                { tooltip: strings.wb_rect },
+                { tooltip: strings.wb_pen, iconCls: 'tb-pen' },
+                { tooltip: strings.wb_line, iconCls: 'tb-line' },
+                { tooltip: strings.wb_rect, iconCls: 'tb-rect' },
                 '-',
                 {
                     menu: {
