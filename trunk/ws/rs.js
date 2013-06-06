@@ -1,5 +1,5 @@
 var port = 1339;
-var root = 'E:/project/iwebrtc/ui';
+var root = 'E:/project/iwebrtc/ui-extjs';
 
 var app = require('http').createServer(handler);
 var io = require('socket.io').listen(app);
