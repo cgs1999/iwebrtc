@@ -56,6 +56,10 @@
                         {
                             text: strings.confirm,
                             handler: function (btn) {
+                                if (!Ext.isChrome || Ext.chromeVersion < 25) {
+                                    Ext.Msg.alert(strings.product, strings.browse_support);
+                                    return;
+                                }
                                 var f = btn.up('form').getForm();
                                 if (f.isValid()) {
                                     f.submit({

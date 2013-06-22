@@ -1,7 +1,9 @@
 ﻿var strings = {
-    sign_title: 'Please sign in',
-    sign_no_empty: 'Please select a room',
-    sign_name_empty: 'Please enter your name',
+    product: 'iWebRTC',
+    sign_title: '用户登陆',
+    sign_no_empty: '请选择会议室',
+    sign_name_empty: '请输入您的名字',
+    browse_support: '仅支持Chrome25+',
 
     confirm: '确定',
     reset: '重置',
