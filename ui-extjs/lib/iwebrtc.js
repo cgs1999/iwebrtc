@@ -431,6 +431,21 @@ Ext.define('WB', {
     }
 });
 
+Ext.define('WB.Page', {
+    constructor: function (config) {
+        config = config || {};
+        this.wb = config.wb;
+        this.no = config.no;
+        this.layers = new Ext.util.HashMap();
+    },
+
+    render: function (ctx) {
+        me.layers.each(function (key, val) {
+            val.draw(me.ctx);
+        });
+    }
+});
+
 Ext.define('WB.Layer', {
     constructor: function (config) {
         config = config || {};
