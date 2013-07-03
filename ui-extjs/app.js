@@ -21,6 +21,8 @@ window.RTCPeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerCo
 window.RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 window.RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
 
+PDFJS.workerSrc = 'pdfjs/pdf.js';
+
 Ext.application({
     name: 'iWebRTC',
 

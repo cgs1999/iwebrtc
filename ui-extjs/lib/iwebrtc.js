@@ -228,16 +228,58 @@ Ext.define('wbs', {
     singleton: true,
     map: new Ext.util.HashMap(),
 
-    add: function (id) {
+    add: function (id, url) {
         var title = strings.wb;
-        var wb = this.create(myid, id, title, true);
-        this.emit({ signal: 'new', id: wb.id, 'title': title, creater: wb.creater });
+        var wb = this.create(myid, id, title, url, true);
+        this.emit({ signal: 'new', id: wb.id, 'title': title, 'url': url, creater: wb.creater });
         return wb;
     },
 
-    create: function (creater, id, title, closable) {
+    openM: function () {
+        var me = this;
+
+        function onOk(btn) {
+            var form = btn.up('form').getForm();
+            if (form.isValid()){
+                form.submit({
+                    url: '/unoconv',
+                    success: function(f, act){
+                        me.add(me.id(), act.result.uri);
+                        btn.up('window').close();
+                    },
+                    failure: function(f, act){
+                        alert('failed');
+                    }
+                });
+            }
+        }
+
+        Ext.create('Ext.window.Window', {
+            title: strings.wb_open_title,
+            width: 450,
+            items: [{
+                xtype: 'form',
+                bodyPadding: 10,
+                border: 0,
+                layout: 'form',
+                items: [{
+                    xtype: 'filefield',
+                    allowBlank: false,
+                    emptyText: strings.wb_open_empty,
+                    name: 'file',
+                    buttonText: '...'
+                }],
+                buttons: [
+                    { text: strings.ok, handler: onOk, },
+                    { text: strings.cancel, handler: function (btn) { btn.up('window').close(); } }
+                ]
+            }]
+        }).show();
+    },
+
+    create: function (creater, id, title, url, closable) {
         id = id || this.id()
-        var wb = Ext.create('WB', { 'id': id, 'creater': creater });
+        var wb = Ext.create('WB', { 'id': id, 'creater': creater, 'url': url });
         var tab = Ext.create('Ext.panel.Panel', {
             'title': title,
             itemId: id,
@@ -264,6 +306,7 @@ Ext.define('wbs', {
                     }
                 }
             ],
+            autoScroll: true,
             html: '<canvas></canvas>'
         });
         getViewport().down('#wb-tabs').add(tab);
@@ -298,7 +341,7 @@ Ext.define('wbs', {
     signal: function (data) {
         switch (data.signal) {
             case 'new':
-                this.create(data.creater, data.id, data.title, false);
+                this.create(data.creater, data.id, data.title, data.url, false);
                 break;
             case 'del':
                 this.close(data.id);
@@ -306,7 +349,7 @@ Ext.define('wbs', {
             case 'draw':
                 var wb = this.get(data.id);
                 if (wb) {
-                    var l = wb.getLayer(data.layer);
+                    var l = wb.getPage(data.page).getLayer(data.layer);
                     var o = Ext.create(data.shape.type);
                     l.push(o.unpack(data.shape));
                     wb.render();
@@ -330,12 +373,18 @@ Ext.define('WB', {
         config = config || {};
         this.id = config.id;
         this.creater = config.creater;
+        this.url = config.url;
         this.tab = config.tab;
         this.canvas = null;
         this.ctx = null;
+        this.pdf = null;
+        this.pdf_page = null;
+        this.scale = 2.0;
         this.drawShape = null;
         this.drawMode = WB.DrawMode.Pen;
-        this.layers = new Ext.util.HashMap();
+        this.pages = new Ext.util.HashMap();
+        this.activePageId = 1;
+        this.numPages = 1;
         if (this.creater == myid) this.color = '#FF0000';
         else this.color = '#0000FF';
     },
@@ -343,22 +392,38 @@ Ext.define('WB', {
     render: function (mousemoving) {
         var me = this;
         me.ctx.clearRect(0, 0, me.canvas.width, me.canvas.height);
-        me.layers.each(function (key, val) {
-            val.draw(me.ctx);
-        });
+        if (me.pdf_page){
+            me.pdf_page.render({
+                canvasContext: me.ctx,
+                viewport: me.pdf_page.getViewport(me.scale)
+            });
+        }
+        this.getActivePage().draw(me.ctx);
         if (me.drawShape) {
             me.drawShape.draw(me.ctx);
         }
         return me;
     },
 
-    getLayer: function (id) {
-        var layers = this.layers;
-        if (!layers.containsKey(id)) {
-            var layer = Ext.create('WB.Layer', { wb: this, 'id': id });
-            return layers.add(id, layer);
+    getPage: function (id) {
+        if (!this.pages.containsKey(id)) {
+            var page = Ext.create('WB.Page', { wb: this, 'id': id });
+            this.pages.add(id, page);
         }
-        return layers.get(id);
+        return this.pages.get(id);
+    },
+
+    getActivePage: function () {
+        return this.getPage(this.activePageId);
+    },
+
+    gotoPage: function (pageId) {
+        this.activePageId = pageId;
+        if (this.pdf) {
+            tihs.loadPage(pageId);
+        } else {
+            this.render();
+        }
     },
 
     undo: function () { return this; },
@@ -368,6 +433,30 @@ Ext.define('WB', {
     clear: function () { return this; },
 
     reset: function () { return this; },
+
+    loadPdf: function(){
+        var me = this;
+        if (me.url) {
+            PDFJS.getDocument(me.url).then(function(pdf){
+                me.pdf = pdf; me.loadPage();
+                me.numPages = pdf.numPages;
+            });
+        }
+    },
+
+    loadPage: function(pageId){
+        var me = this;
+        pageId = pageId || 1;
+        if (me.pdf){
+            me.pdf.getPage(pageId).then(function(page){
+                me.pdf_page = page;
+                var vp = page.getViewport(me.scale);
+                me.canvas.setAttribute('width', vp.width);
+                me.canvas.setAttribute('height', vp.height);
+                me.render();
+            });
+        }
+    },
 
     init: function (panel) {
         var me = this;
@@ -379,9 +468,11 @@ Ext.define('WB', {
             c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
         });
         panel.on('resize', function (c, w, h) {
-            me.canvas.setAttribute('width', w);
-            me.canvas.setAttribute('height', h);
-            me.render();
+            if (me.page == null) {
+                me.canvas.setAttribute('width', w);
+                me.canvas.setAttribute('height', h);
+                me.render();
+            }
         });
         panel.on('close', function () {
             if (me.creater == myid) {
@@ -416,8 +507,8 @@ Ext.define('WB', {
             if (!validDrawMode()) return;
             if (capture && me.drawShape) {
                 me.drawShape.mouseup(e);
-                me.getLayer(myid).push(me.drawShape);
-                wbs.emit({ signal: 'draw', id: me.id, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
+                me.getActivePage().getLayer(myid).push(me.drawShape);
+                wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
                 me.drawShape = null;
                 me.render();
             }
@@ -427,6 +518,8 @@ Ext.define('WB', {
             capture = false;
         }
 
+        me.loadPdf();
+
         return me;
     }
 });
@@ -435,21 +528,39 @@ Ext.define('WB.Page', {
     constructor: function (config) {
         config = config || {};
         this.wb = config.wb;
-        this.no = config.no;
+        this.id = config.id;
         this.layers = new Ext.util.HashMap();
     },
 
-    render: function (ctx) {
+    draw: function (ctx) {
+        var me = this;
         me.layers.each(function (key, val) {
-            val.draw(me.ctx);
+            val.draw(ctx);
         });
-    }
+    },
+
+    getLayer: function (id) {
+        var layers = this.layers;
+        if (!layers.containsKey(id)) {
+            var layer = Ext.create('WB.Layer', { page: this, 'id': id });
+            return layers.add(id, layer);
+        }
+        return layers.get(id);
+    },
+
+    undo: function () { return this; },
+
+    redo: function () { return this; },
+
+    clear: function () { return this; },
+
+    reset: function () { return this; }
 });
 
 Ext.define('WB.Layer', {
     constructor: function (config) {
         config = config || {};
-        this.wb = config.wb;
+        this.page = config.page;
         this.id = config.id;
         this.figures = [];
         this.undolst = [];

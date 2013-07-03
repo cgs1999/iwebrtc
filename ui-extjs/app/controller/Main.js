@@ -29,6 +29,11 @@
                     wbs.add();
                 }
             },
+            'viewport #mnu-wb-open': {
+                click: function () {
+                    wbs.openM();
+                }
+            },
             'viewport tabpanel colormenu': {
                 select: function (cp, color) {
                     var cr = '#' + color;

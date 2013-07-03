@@ -1,5 +1,6 @@
 var port = 1339;
 var root = 'E:/project/iwebrtc/ui-extjs';
+var upload = '/upload/';
 
 var app = require('http').createServer(handler);
 var io = require('socket.io').listen(app);
@@ -11,6 +12,48 @@ var unoconv = require('unoconv');
 console.log('Listening at: ws://0.0.0.0:' + port);
 
 app.listen(port);
+
+var ErrCode = {
+	NotSupportedType: 1001
+};
+
+Date.prototype.format = function (fmt) {
+    var y = this.getFullYear().toString();
+    var m = (this.getMonth() + 1).toString();
+    var d = this.getDate().toString();
+    var h = this.getHours().toString();
+    var i = this.getMinutes().toString();
+    var s = this.getSeconds().toString();
+
+    var out = '';
+    for (var j = 0; j < fmt.length; j++) {
+        var c = fmt.charAt(j);
+        switch (c) {
+            case 'Y':
+                out += y;
+                break;
+            case 'm':
+                out += (m.length > 1) ? m : ('0' + m);
+                break;
+            case 'd':
+                out += (d.length > 1) ? d : ('0' + d);
+                break;
+            case 'H':
+                out += (h.length > 1) ? h : ('0' + h);
+                break;
+            case 'i':
+                out += (i.length > 1) ? i : ('0' + i);
+                break;
+            case 's':
+                out += (s.length > 1) ? s : ('0' + s);
+                break;
+            default:
+                out += c;
+                break;
+        }
+    }
+    return out;
+}
 
 function handler(req, res) {
 	var url = require('url').parse(req.url, true);
@@ -24,31 +67,38 @@ function handler(req, res) {
 			form.encoding = 'utf-8';
 			form.keepExtensions = true;
 			form.maxFieldsSize = 2 * 1024 * 1024;
+
+			var rsp = {};
+			rsp.success = true;
+			rsp.uri = '';
+			rsp.ec = '';
 			
 			form.parse(req, function(err, fields, files){
 				res.writeHead(200, {'content-type': 'text/plain'});
-				res.write('received upload:\n\n');
-				res.end(util.inspect({fields: fields, files: files}));
+				res.write(JSON.stringify(rsp));
+				res.end();
 			});
 			form.on('file', function(name, file) {
-				console.log(name);
-				console.log(file);
-				unoconv.convert(file.path, 'pdf', function(err, result){
-					fs.writeFile('converted.pdf', result);
-				});
+				if (/[.]pdf$/.test(file.name)) {
+					var new_name = (new Date()).format('YmdHis') + '.pdf';
+					fs.readFile(file.path, function(err, data){ fs.writeFile(root + upload + new_name, data); });
+					rsp.uri = upload + new_name;
+				} else {
+					rsp.success = false;
+					rsp.ec = ErrCode.NotSupportedType;
+				}
 			});
 		}
 		return;
 	}
 	var path = root + pathname;
-	//console.log(req.method);
 	fs.readFile(path, function(err, data){
 		if (err) {
 			res.writeHead(500);
 			return res.end('Error loading ' + url);
 		}
 		var o = {};
-		if (/html$/.test(pathname)) {
+		if (/[.]html$/.test(pathname)) {
 			o['Content-Type'] = 'text/html';
 		}
 		res.writeHead(200, o);
