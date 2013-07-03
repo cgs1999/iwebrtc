@@ -57,6 +57,12 @@
   <ItemGroup>
     <Content Include="app.js" />
     <Content Include="app\controller\Main.js" />
+    <Content Include="app\images\line.png" />
+    <Content Include="app\images\pen.png" />
+    <Content Include="app\images\rect.png" />
+    <Content Include="app\images\wb.png" />
+    <Content Include="app\images\opt.png" />
+    <Content Include="app\style.css" />
     <Content Include="app\view\Viewport.js" />
     <Content Include="lib\config.js" />
     <Content Include="extjs-4.2.1\ext-all.js" />

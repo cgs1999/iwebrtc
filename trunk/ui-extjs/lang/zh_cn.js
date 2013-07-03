@@ -19,6 +19,12 @@
     wb_line: '直线',
     wb_rect: '矩形',
 
+    wb_open_title: '选择文件',
+    wb_open_empty: '请选择要打开的文件',
+
+    ok: '确定',
+    cancel: '取消',
+
     people: '与会人列表',
 
     msg: '消息',
