@@ -34,6 +34,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -53,6 +55,7 @@
   <ItemGroup>
     <Folder Include="app\store\" />
     <Folder Include="Properties\" />
+    <Folder Include="upload\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.js" />
@@ -483,11 +486,21 @@
     <Content Include="lib\iwebrtc.js" />
     <Content Include="lib\json2.js" />
     <Content Include="lang\zh_cn.js" />
+    <Content Include="pdfjs\hello.js" />
+    <Content Include="pdfjs\index.html" />
+    <Content Include="pdfjs\pdf.js" />
     <Content Include="room.html" />
     <Content Include="socketio\socket.io.js" />
     <Content Include="socketio\socket.io.min.js" />
     <Content Include="socketio\WebSocketMain.swf" />
     <Content Include="socketio\WebSocketMainInsecure.swf" />
+    <Content Include="uconv.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <None Include="pdfjs\curriculum-vitae-dag-wieers.pdf" />
+    <None Include="pdfjs\helloworld.pdf" />
+    <Content Include="Web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
