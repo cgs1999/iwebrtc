@@ -240,14 +240,14 @@ Ext.define('wbs', {
 
         function onOk(btn) {
             var form = btn.up('form').getForm();
-            if (form.isValid()){
+            if (form.isValid()) {
                 form.submit({
                     url: '/unoconv',
-                    success: function(f, act){
+                    success: function (f, act) {
                         me.add(me.id(), act.result.uri);
                         btn.up('window').close();
                     },
-                    failure: function(f, act){
+                    failure: function (f, act) {
                         alert('failed');
                     }
                 });
@@ -270,7 +270,7 @@ Ext.define('wbs', {
                     buttonText: '...'
                 }],
                 buttons: [
-                    { text: strings.ok, handler: onOk, },
+                    { text: strings.ok, handler: onOk },
                     { text: strings.cancel, handler: function (btn) { btn.up('window').close(); } }
                 ]
             }]
@@ -309,10 +309,11 @@ Ext.define('wbs', {
                 {
                     xtype: 'combo',
                     itemId: 'wb-tb-pages',
+                    width: 60,
                     store: {
                         type: 'store',
                         fields: ['page_no'],
-                        data: [{page_no: 1}]
+                        data: [{ page_no: 1}]
                     },
                     disabled: !closable,
                     queryMode: 'local',
@@ -370,6 +371,13 @@ Ext.define('wbs', {
                     wb.render();
                 }
                 break;
+            case 'page':
+                var wb = this.get(data.id);
+                if (wb) {
+                    wb.gotoPage(data.page_no);
+                    wb.tab.down('#wb-tb-pages').setValue(data.page_no);
+                }
+                break;
         }
     }
 });
@@ -407,11 +415,11 @@ Ext.define('WB', {
     render: function (mousemoving) {
         var me = this;
         me.ctx.clearRect(0, 0, me.canvas.width, me.canvas.height);
-        if (me.pdf_page){
+        if (me.pdf_page) {
             me.pdf_page.render({
                 canvasContext: me.ctx,
                 viewport: me.pdf_page.getViewport(me.scale)
-            }).then(function(){
+            }).then(function () {
                 console.log(arguments);
                 this.getActivePage().draw(me.ctx);
                 if (me.drawShape) {
@@ -442,7 +450,7 @@ Ext.define('WB', {
     gotoPage: function (pageId) {
         this.activePageId = pageId;
         if (this.pdf) {
-            tihs.loadPage(pageId);
+            this.loadPage(pageId);
         } else {
             this.render();
         }
@@ -456,21 +464,32 @@ Ext.define('WB', {
 
     reset: function () { return this; },
 
-    loadPdf: function(){
+    loadPdf: function () {
         var me = this;
         if (me.url) {
-            PDFJS.getDocument(me.url).then(function(pdf){
+            PDFJS.getDocument(me.url).then(function (pdf) {
                 me.pdf = pdf; me.loadPage();
                 me.numPages = pdf.numPages;
+                var cbo = me.tab.down('#wb-tb-pages');
+                var store = cbo.getStore();
+                for (var i = 1; i < pdf.numPages; i++) {
+                    store.loadData([{ page_no: (i + 1)}], true);
+                }
+                if (me.creater == myid) {
+                    cbo.on('change', function (cbo, val) {
+                        me.gotoPage(val);
+                        wbs.emit({ signal: 'page', id: me.id, page_no: val });
+                    });
+                }
             });
         }
     },
 
-    loadPage: function(pageId){
+    loadPage: function (pageId) {
         var me = this;
         pageId = pageId || 1;
-        if (me.pdf){
-            me.pdf.getPage(pageId).then(function(page){
+        if (me.pdf) {
+            me.pdf.getPage(pageId).then(function (page) {
                 me.pdf_page = page;
                 var vp = page.getViewport(me.scale);
                 me.canvas.setAttribute('width', vp.width);
@@ -480,7 +499,7 @@ Ext.define('WB', {
         }
     },
 
-    bind: function(){
+    bind: function () {
         var me = this;
     },
 
