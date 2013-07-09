@@ -304,6 +304,21 @@ Ext.define('wbs', {
                         xtype: 'colormenu',
                         value: wb.color.substr(1)
                     }
+                },
+                '-',
+                {
+                    xtype: 'combo',
+                    itemId: 'wb-tb-pages',
+                    store: {
+                        type: 'store',
+                        fields: ['page_no'],
+                        data: [{page_no: 1}]
+                    },
+                    disabled: !closable,
+                    queryMode: 'local',
+                    displayField: 'page_no',
+                    value: 1,
+                    editable: false
                 }
             ],
             autoScroll: true,
@@ -396,11 +411,18 @@ Ext.define('WB', {
             me.pdf_page.render({
                 canvasContext: me.ctx,
                 viewport: me.pdf_page.getViewport(me.scale)
+            }).then(function(){
+                console.log(arguments);
+                this.getActivePage().draw(me.ctx);
+                if (me.drawShape) {
+                    me.drawShape.draw(me.ctx);
+                }
             });
-        }
-        this.getActivePage().draw(me.ctx);
-        if (me.drawShape) {
-            me.drawShape.draw(me.ctx);
+        } else {
+            this.getActivePage().draw(me.ctx);
+            if (me.drawShape) {
+                me.drawShape.draw(me.ctx);
+            }
         }
         return me;
     },
@@ -456,6 +478,10 @@ Ext.define('WB', {
                 me.render();
             });
         }
+    },
+
+    bind: function(){
+        var me = this;
     },
 
     init: function (panel) {
