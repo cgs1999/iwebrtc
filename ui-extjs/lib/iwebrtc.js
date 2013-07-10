@@ -350,7 +350,7 @@ Ext.define('wbs', {
 
     emit: function (data) {
         Ext.apply(data, { event: 'wbs' });
-        socket.emit('message', data);
+        if (socket) socket.emit('message', data);
         return this;
     },
 
@@ -420,7 +420,6 @@ Ext.define('WB', {
                 canvasContext: me.ctx,
                 viewport: me.pdf_page.getViewport(me.scale)
             }).then(function () {
-                console.log(arguments);
                 me.getActivePage().draw(me.ctx);
                 if (me.drawShape) {
                     me.drawShape.draw(me.ctx);
