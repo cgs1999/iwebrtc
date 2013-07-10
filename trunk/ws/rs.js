@@ -100,6 +100,10 @@ function handler(req, res) {
 		var o = {};
 		if (/[.]html$/.test(pathname)) {
 			o['Content-Type'] = 'text/html';
+		} else if (/[.]js$/.test(pathname)) {
+			o['Content-Type'] = 'text/javascript';
+		} else if (/[.]css$/.test(pathname)) {
+			o['Content-Type'] = 'text/css';
 		}
 		res.writeHead(200, o);
 		res.end(data);
