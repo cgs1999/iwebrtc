@@ -1,7 +1,7 @@
-﻿//var ws_serv = 'ws://' + location.host;
-var ws_serv = 'ws://127.0.0.1:1339';
+﻿var ws_serv = 'ws://' + location.host;
+//var ws_serv = 'ws://127.0.0.1:1339';
 var myid = null;
-var myname = request['name'] || strings.anonymous;
+var myname = decodeURI(request['name']) || strings.anonymous;
 var socket = null;
 var joined_room = {};
 joined_room.no = request['no'];

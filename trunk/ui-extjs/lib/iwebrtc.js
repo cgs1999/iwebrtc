@@ -323,7 +323,7 @@ Ext.define('wbs', {
                 }
             ],
             autoScroll: true,
-            html: '<canvas></canvas><canvas style="display:hidden"></canvas>'
+            html: '<canvas></canvas><canvas style="display:none"></canvas>'
         });
         getViewport().down('#wb-tabs').add(tab);
         tab.on('render', function () { wb.init(tab); });
