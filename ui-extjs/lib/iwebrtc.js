@@ -249,6 +249,7 @@ Ext.define('wbs', {
                     },
                     failure: function (f, act) {
                         alert('failed');
+                        console.log(act.result);
                     }
                 });
             }

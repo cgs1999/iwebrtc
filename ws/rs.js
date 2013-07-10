@@ -1,5 +1,6 @@
 var port = 1339;
 var root = 'E:/project/iwebrtc/ui-extjs';
+//var root = '/opt/iwebrtc/ui-extjs';
 var upload = '/upload/';
 
 var app = require('http').createServer(handler);
@@ -14,7 +15,9 @@ console.log('Listening at: ws://0.0.0.0:' + port);
 app.listen(port);
 
 var ErrCode = {
-	NotSupportedType: 1001
+	NoError: 0,
+	NotSupportedType: 1001,
+	ConvertToPdfFailed: 1002
 };
 
 Date.prototype.format = function (fmt) {
@@ -71,28 +74,38 @@ function handler(req, res) {
 			var rsp = {};
 			rsp.success = true;
 			rsp.uri = '';
-			rsp.ec = '';
+			rsp.ec = ErrCode.NoError;
 			
-			form.parse(req, function(err, fields, files){
+			function sendRsp(){
 				res.writeHead(200, {'content-type': 'text/plain'});
 				res.write(JSON.stringify(rsp));
 				res.end();
+			}
+
+			form.parse(req, function(err, fields, files){
 			});
 			form.on('file', function(name, file) {
+				var new_name = (new Date()).format('YmdHis') + '.pdf';
+				rsp.uri = upload + new_name;
 				if (/[.]pdf$/.test(file.name)) {
-					var new_name = (new Date()).format('YmdHis') + '.pdf';
 					fs.readFile(file.path, function(err, data){ fs.writeFile(root + upload + new_name, data); });
-					rsp.uri = upload + new_name;
 				} else if (/[.]doc$|[.]docx$/.test(file.name)) {
-					var new_name = (new Date()).format('YmdHis') + '.pdf';
 					unoconv.convert(file.path, 'pdf', function(err, result){
-						fs.writeFile(root + upload + new_name, result);
+						if (err) {
+							rsp.success = false;
+							rsp.ec = ErrCode.ConvertToPdfFailed;
+							rsp.detail = err;
+						} else {
+							fs.writeFile(root + upload + new_name, result);
+						}
+						sendRsp();
 					});
-					rsp.uri = upload + new_name;
+					return;
 				} else {
 					rsp.success = false;
 					rsp.ec = ErrCode.NotSupportedType;
 				}
+				sendRsp();
 			});
 		}
 		return;
