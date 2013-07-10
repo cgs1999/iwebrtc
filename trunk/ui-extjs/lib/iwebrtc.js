@@ -323,7 +323,7 @@ Ext.define('wbs', {
                 }
             ],
             autoScroll: true,
-            html: '<canvas></canvas>'
+            html: '<canvas></canvas><canvas style="display:hidden"></canvas>'
         });
         getViewport().down('#wb-tabs').add(tab);
         tab.on('render', function () { wb.init(tab); });
@@ -400,6 +400,8 @@ Ext.define('WB', {
         this.tab = config.tab;
         this.canvas = null;
         this.ctx = null;
+        this.img_canvas = null;
+        this.img_ctx = null;
         this.pdf = null;
         this.pdf_page = null;
         this.scale = 2.0;
@@ -416,15 +418,11 @@ Ext.define('WB', {
         var me = this;
         me.ctx.clearRect(0, 0, me.canvas.width, me.canvas.height);
         if (me.pdf_page) {
-            me.pdf_page.render({
-                canvasContext: me.ctx,
-                viewport: me.pdf_page.getViewport(me.scale)
-            }).then(function () {
-                me.getActivePage().draw(me.ctx);
-                if (me.drawShape) {
-                    me.drawShape.draw(me.ctx);
-                }
-            });
+            me.ctx.drawImage(me.img_canvas, 0, 0);
+            me.getActivePage().draw(me.ctx);
+            if (me.drawShape) {
+                me.drawShape.draw(me.ctx);
+            }
         } else {
             me.getActivePage().draw(me.ctx);
             if (me.drawShape) {
@@ -493,7 +491,15 @@ Ext.define('WB', {
                 var vp = page.getViewport(me.scale);
                 me.canvas.setAttribute('width', vp.width);
                 me.canvas.setAttribute('height', vp.height);
-                me.render();
+                me.img_canvas.setAttribute('width', vp.width);
+                me.img_canvas.setAttribute('height', vp.height);
+
+                page.render({
+                    canvasContext: me.img_ctx,
+                    viewport: page.getViewport(me.scale)
+                }).then(function () {
+                    me.render();
+                });
             });
         }
     },
@@ -508,6 +514,10 @@ Ext.define('WB', {
         panel.wb = me;
         me.tab = panel;
         me.canvas = panel.el.dom.getElementsByTagName('canvas')[0];
+        me.ctx = me.canvas.getContext('2d');
+        me.img_canvas = panel.el.dom.getElementsByTagName('canvas')[1];
+        me.img_ctx = me.img_canvas.getContext('2d');
+
         panel.down('#wb-tb-color').on('render', function (c) {
             c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
         });
@@ -515,6 +525,8 @@ Ext.define('WB', {
             if (me.page == null) {
                 me.canvas.setAttribute('width', w);
                 me.canvas.setAttribute('height', h);
+                me.img_canvas.setAttribute('width', w);
+                me.img_canvas.setAttribute('height', h);
                 me.render();
             }
         });
@@ -523,7 +535,6 @@ Ext.define('WB', {
                 wbs.del(me.id);
             }
         });
-        me.ctx = me.canvas.getContext('2d');
 
         me.canvas.onselectstart = function () { return false; }
 
