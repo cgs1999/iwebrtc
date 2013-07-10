@@ -88,6 +88,7 @@ function handler(req, res) {
 					unoconv.convert(file.path, 'pdf', function(err, result){
 						fs.writeFile(root + upload + new_name, result);
 					});
+					rsp.uri = upload + new_name;
 				} else {
 					rsp.success = false;
 					rsp.ec = ErrCode.NotSupportedType;
