@@ -421,13 +421,13 @@ Ext.define('WB', {
                 viewport: me.pdf_page.getViewport(me.scale)
             }).then(function () {
                 console.log(arguments);
-                this.getActivePage().draw(me.ctx);
+                me.getActivePage().draw(me.ctx);
                 if (me.drawShape) {
                     me.drawShape.draw(me.ctx);
                 }
             });
         } else {
-            this.getActivePage().draw(me.ctx);
+            me.getActivePage().draw(me.ctx);
             if (me.drawShape) {
                 me.drawShape.draw(me.ctx);
             }

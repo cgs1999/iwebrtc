@@ -83,6 +83,11 @@ function handler(req, res) {
 					var new_name = (new Date()).format('YmdHis') + '.pdf';
 					fs.readFile(file.path, function(err, data){ fs.writeFile(root + upload + new_name, data); });
 					rsp.uri = upload + new_name;
+				} else if (/[.]doc$|[.]docx$/.test(file.name)) {
+					var new_name = (new Date()).format('YmdHis') + '.pdf';
+					unoconv.convert(file.path, 'pdf', function(err, result){
+						fs.writeFile(root + upload + new_name, result);
+					});
 				} else {
 					rsp.success = false;
 					rsp.ec = ErrCode.NotSupportedType;
