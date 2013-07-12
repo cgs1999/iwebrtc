@@ -131,7 +131,7 @@ function handler(req, res) {
 			|| /ext-theme-neptune-all[.]css$/.test(pathname)) {
 			o['Content-Encoding'] = 'gzip';
 		}
-		o['Cache-Control'] = 'max-age=7200';
+		o['Cache-Control'] = 'max-age=604800';
 		res.writeHead(200, o);
 		res.end(data);
 	});
