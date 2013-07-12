@@ -124,6 +124,14 @@ function handler(req, res) {
 		} else if (/[.]css$/.test(pathname)) {
 			o['Content-Type'] = 'text/css';
 		}
+		if (/pdf[.]js$/.test(pathname)
+			|| /ext-all[.]js$/.test(pathname)
+			|| /socket.io.min[.]js$/.test(pathname)
+			|| /json2[.]js$/.test(pathname)
+			|| /ext-theme-neptune-all[.]css$/.test(pathname)) {
+			o['Content-Encoding'] = 'gzip';
+		}
+		o['Cache-Control'] = 'max-age=7200';
 		res.writeHead(200, o);
 		res.end(data);
 	});
