@@ -526,10 +526,8 @@ Ext.define('WB', {
             if (me.page == null) {
                 me.canvas.setAttribute('width', w);
                 me.canvas.setAttribute('height', h);
-                me.img_canvas.setAttribute('width', w);
-                me.img_canvas.setAttribute('height', h);
-                me.render();
             }
+            me.render();
         });
         panel.on('close', function () {
             if (me.creater == myid) {
