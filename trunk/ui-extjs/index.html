@@ -57,7 +57,8 @@
                         {
                             text: strings.confirm,
                             handler: function (btn) {
-                                if (!Ext.isChrome || Ext.chromeVersion < 25) {
+                                if ((!Ext.isChrome || Ext.chromeVersion < 25)
+                                    && (!Ext.isGecko || Ext.firefoxVersion < 22)) {
                                     Ext.Msg.alert(strings.product, strings.browse_support);
                                     return;
                                 }
