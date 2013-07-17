@@ -298,6 +298,10 @@ Ext.define('wbs', {
                     tooltip: strings.wb_rect, iconCls: 'tb-rect',
                     handler: function () { wb.drawMode = WB.DrawMode.Rect; }
                 },
+                {
+                    tooltip: strings.wb_text, iconCls: 'tb-text',
+                    handler: function () { wb.drawMode = WB.DrawMode.Text; }
+                },
                 '-',
                 {
                     itemId: 'wb-tb-color',
@@ -389,7 +393,8 @@ Ext.define('WB', {
             None: 'WB.None',
             Pen: 'WB.Pen',
             Line: 'WB.Line',
-            Rect: 'WB.Rect'
+            Rect: 'WB.Rect',
+            Text: 'WB.Text'
         }
     },
 
@@ -540,33 +545,42 @@ Ext.define('WB', {
         function validDrawMode() {
             return ((me.drawMode === WB.DrawMode.Pen)
             || (me.drawMode === WB.DrawMode.Line)
-            || (me.drawMode === WB.DrawMode.Rect));
+            || (me.drawMode === WB.DrawMode.Rect)
+            || (me.drawMode === WB.DrawMode.Text));
         }
 
         var capture = false;
         me.canvas.onmousedown = function (e) {
-            if (!validDrawMode()) return;
-            capture = true;
-            me.drawShape = Ext.create(me.drawMode, { color: me.color });
-            me.drawShape.mousedown(e);
+            if (e.which == 1) {
+                if (!validDrawMode()) return;
+                capture = true;
+                me.drawShape = Ext.create(me.drawMode, { color: me.color });
+                me.drawShape.mousedown(e);
+            }
         }
         me.canvas.onmousemove = function (e) {
-            if (!validDrawMode()) return;
-            if (capture && me.drawShape) {
-                me.drawShape.mousemove(e);
-                me.render(true);
+            if (e.which == 1) {
+                if (!validDrawMode()) return;
+                if (capture && me.drawShape) {
+                    me.drawShape.mousemove(e);
+                    me.render(true);
+                }
             }
         }
         me.canvas.onmouseup = function (e) {
-            if (!validDrawMode()) return;
-            if (capture && me.drawShape) {
-                me.drawShape.mouseup(e);
-                me.getActivePage().getLayer(myid).push(me.drawShape);
-                wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
-                me.drawShape = null;
-                me.render();
+            if (e.which == 1) {
+                if (!validDrawMode()) return;
+                if (capture && me.drawShape) {
+                    me.drawShape.mouseup(e, me);
+                    if (me.drawMode != WB.DrawMode.Text) {
+                        me.getActivePage().getLayer(myid).push(me.drawShape);
+                        wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
+                        me.drawShape = null;
+                        me.render();
+                    }
+                }
+                capture = false;
             }
-            capture = false;
         }
         me.canvas.onmouseout = function (e) {
             capture = false;
@@ -575,6 +589,16 @@ Ext.define('WB', {
         me.loadPdf();
 
         return me;
+    },
+
+    finishText: function () {
+        var me = this;
+        if (me.drawShape != null) {
+            me.getActivePage().getLayer(myid).push(me.drawShape);
+            wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack() });
+            me.drawShape = null;
+            me.render();
+        }
     }
 });
 
@@ -856,6 +880,98 @@ Ext.define('WB.Rect', {
     mouseup: function (e) {
         this.w = e.offsetX - this.x;
         this.h = e.offsetY - this.y;
+        return this;
+    }
+});
+
+Ext.define('WB.Text', {
+    extend: 'WB.Shape',
+
+    statics: {
+        Type: 'WB.Text'
+    },
+
+    constructor: function (config) {
+        this.callParent(arguments);
+        this.x = 0;
+        this.y = 0;
+        this.size = 12 + this.width * 2;
+        this.font = this.size + 'px Arial bold';
+        this.text = '';
+    },
+
+    pack: function () {
+        return {
+            type: WB.Rect.Type,
+            color: this.color,
+            x: this.x,
+            y: this.y,
+            text: this.text,
+            font: this.font,
+            size: this.size
+        };
+    },
+
+    unpack: function (o) {
+        this.color = o.color;
+        this.x = o.x;
+        this.y = o.y;
+        this.text = o.text;
+        this.font = o.font;
+        this.size = o.size;
+        return this;
+    },
+
+    draw: function (ctx) {
+        ctx.font = this.font;
+        ctx.fillStyle = this.color;
+        var lines = this.text.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+            ctx.fillText(lines[i], this.x, (this.y + (this.size * i + 2)) + (50 / 4));
+        }
+    },
+
+    mousedown: function (e) { },
+
+    mousemove: function (e) { },
+
+    mouseup: function (e, wb) {
+        this.x = e.offsetX;
+        this.y = e.offsetY;
+        var me = this;
+
+        function onOk(btn) {
+            var w = btn.up('window');
+            me.text = w.down('textarea').getValue();
+            wb.finishText();
+            w.close();
+        }
+
+        Ext.create('Ext.window.Window', {
+            modal: true,
+            closable: false,
+            draggable: false,
+            border: false,
+            resizable: false,
+            width: 320,
+            height: 120,
+            x: e.pageX,
+            y: e.pageY,
+            layout: 'fit',
+            items: [
+                { xtype: 'textarea' }
+            ],
+            buttons: [
+                { text: strings.ok, handler: onOk },
+                { text: strings.cancel, handler: function (btn) { btn.up('window').close(); } }
+            ],
+            listeners: {
+                show: function (w) {
+                    w.down('textarea').focus();
+                }
+            }
+        }).show();
+
         return this;
     }
 });
