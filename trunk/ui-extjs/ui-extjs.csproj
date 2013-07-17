@@ -60,6 +60,7 @@
   <ItemGroup>
     <Content Include="app.js" />
     <Content Include="app\controller\Main.js" />
+    <Content Include="app\images\text.png" />
     <Content Include="app\images\line.png" />
     <Content Include="app\images\pen.png" />
     <Content Include="app\images\rect.png" />
