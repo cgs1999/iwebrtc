@@ -18,6 +18,7 @@
     wb_pen: '铅笔',
     wb_line: '直线',
     wb_rect: '矩形',
+    wb_text: '文字',
 
     wb_open_title: '选择文件',
     wb_open_empty: '请选择要打开的文件',
