@@ -745,17 +745,17 @@ Ext.define('WB.Pen', {
     },
 
     mousedown: function (e) {
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     },
 
     mousemove: function (e) {
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     },
 
     mouseup: function (e) {
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     }
 });
@@ -800,24 +800,24 @@ Ext.define('WB.Line', {
             ctx.lineTo(p.x, p.y);
         }
         this.stroke(ctx);
-        ctx.closePath();
     },
 
     mousedown: function (e) {
+        
         this.points = [];
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     },
 
     mousemove: function (e) {
         if (this.points.length > 1) this.points.pop();
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     },
 
     mouseup: function (e) {
         if (this.points.length > 1) this.points.pop();
-        this.points.push({ x: e.offsetX, y: e.offsetY });
+        this.points.push({ x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
         return this;
     }
 });
@@ -866,20 +866,20 @@ Ext.define('WB.Rect', {
     },
 
     mousedown: function (e) {
-        this.x = e.offsetX;
-        this.y = e.offsetY;
+        this.x = e.offsetX || e.layerX;
+        this.y = e.offsetY || e.layerY;
         return this;
     },
 
     mousemove: function (e) {
-        this.w = e.offsetX - this.x;
-        this.h = e.offsetY - this.y;
+        this.w = e.offsetX || e.layerX - this.x;
+        this.h = e.offsetY || e.layerY - this.y;
         return this;
     },
 
     mouseup: function (e) {
-        this.w = e.offsetX - this.x;
-        this.h = e.offsetY - this.y;
+        this.w = e.offsetX || e.layerX - this.x;
+        this.h = e.offsetY || e.layerY - this.y;
         return this;
     }
 });
@@ -936,8 +936,8 @@ Ext.define('WB.Text', {
     mousemove: function (e) { },
 
     mouseup: function (e, wb) {
-        this.x = e.offsetX;
-        this.y = e.offsetY;
+        this.x = e.offsetX || e.layerX;
+        this.y = e.offsetY || e.layerY;
         var me = this;
 
         function onOk(btn) {
