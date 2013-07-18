@@ -887,10 +887,6 @@ Ext.define('WB.Rect', {
 Ext.define('WB.Text', {
     extend: 'WB.Shape',
 
-    statics: {
-        Type: 'WB.Text'
-    },
-
     constructor: function (config) {
         this.callParent(arguments);
         this.x = 0;
@@ -902,7 +898,7 @@ Ext.define('WB.Text', {
 
     pack: function () {
         return {
-            type: WB.Rect.Type,
+            type: this.$className,
             color: this.color,
             x: this.x,
             y: this.y,
@@ -959,7 +955,7 @@ Ext.define('WB.Text', {
             y: e.pageY,
             layout: 'fit',
             items: [
-                { xtype: 'textarea' }
+                { xtype: 'textarea', style: { color: me.color + ' !important', font: me.font + ' !important' } }
             ],
             buttons: [
                 { text: strings.ok, handler: onOk },
