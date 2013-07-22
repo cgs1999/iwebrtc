@@ -328,7 +328,13 @@ Ext.define('wbs', {
                 }
             ],
             autoScroll: true,
-            html: '<canvas></canvas><canvas style="display:none"></canvas>'
+			layout: { type: 'vbox', align: 'center', pack: 'center' },
+			items: [{
+				xtype: 'panel',
+				width: 1240,
+				height: 1754,
+				html: '<canvas width='+1240+' height='+1754+'></canvas><canvas style="display:none"></canvas>'
+			}]
         });
         getViewport().down('#wb-tabs').add(tab);
         tab.on('render', function () { wb.init(tab); });
@@ -527,13 +533,13 @@ Ext.define('WB', {
         panel.down('#wb-tb-color').on('render', function (c) {
             c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
         });
-        panel.on('resize', function (c, w, h) {
-            if (me.page == null) {
-                me.canvas.setAttribute('width', w);
-                me.canvas.setAttribute('height', h);
-            }
-            me.render();
-        });
+        //panel.on('resize', function (c, w, h) {
+        //    if (!me.pdf) {
+        //        me.canvas.setAttribute('width', w);
+        //        me.canvas.setAttribute('height', h);
+        //    }
+        //    me.render();
+        //});
         panel.on('close', function () {
             if (me.creater == myid) {
                 wbs.del(me.id);
@@ -872,14 +878,14 @@ Ext.define('WB.Rect', {
     },
 
     mousemove: function (e) {
-        this.w = e.offsetX || e.layerX - this.x;
-        this.h = e.offsetY || e.layerY - this.y;
+        this.w = (e.offsetX || e.layerX) - this.x;
+        this.h = (e.offsetY || e.layerY) - this.y;
         return this;
     },
 
     mouseup: function (e) {
-        this.w = e.offsetX || e.layerX - this.x;
-        this.h = e.offsetY || e.layerY - this.y;
+        this.w = (e.offsetX || e.layerX) - this.x;
+        this.h = (e.offsetY || e.layerY) - this.y;
         return this;
     }
 });
