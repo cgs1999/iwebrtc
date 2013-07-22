@@ -287,6 +287,10 @@ Ext.define('wbs', {
             'closable': closable,
             tbar: [
                 {
+                    tooltip: strings.wb_cursor, iconCls: 'tb-cursor',
+                    handler: function () { wb.drawMode = WB.DrawMode.None; }
+                },
+				{
                     tooltip: strings.wb_pen, iconCls: 'tb-pen',
                     handler: function () { wb.drawMode = WB.DrawMode.Pen; }
                 },
