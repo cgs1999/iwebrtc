@@ -15,6 +15,7 @@
     wb_0_body: '<h2>欢迎使用iWebRTC Demo System</h2><p>1.您可以使用iwebrtc与同一个会议室的参与者进行语音和视频的沟通</p><p>2.您可以点击"白板"->"打开word文档"将本地文件共享给其他参与者</p><p>3.您可以在打开的白板上进行图形和文字标注</p>',
     wb_new: '新建',
     wb_open: '打开本机Word或Pdf文档',
+	wb_cursor: '指针',
     wb_pen: '铅笔',
     wb_line: '直线',
     wb_rect: '矩形',
