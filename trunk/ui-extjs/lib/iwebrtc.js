@@ -291,9 +291,9 @@ Ext.define('wbs', {
                     handler: function () { wb.drawMode = WB.DrawMode.None; }
                 },
 				{
-                    tooltip: strings.wb_pen, iconCls: 'tb-pen',
-                    handler: function () { wb.drawMode = WB.DrawMode.Pen; }
-                },
+				    tooltip: strings.wb_pen, iconCls: 'tb-pen',
+				    handler: function () { wb.drawMode = WB.DrawMode.Pen; }
+				},
                 {
                     tooltip: strings.wb_line, iconCls: 'tb-line',
                     handler: function () { wb.drawMode = WB.DrawMode.Line; }
@@ -332,13 +332,13 @@ Ext.define('wbs', {
                 }
             ],
             autoScroll: true,
-			layout: { type: 'vbox', align: 'center', pack: 'center' },
-			items: [{
-				xtype: 'panel',
-				width: 1240,
-				height: 1754,
-				html: '<canvas width='+1240+' height='+1754+'></canvas><canvas style="display:none"></canvas>'
-			}]
+            layout: { type: 'vbox', align: 'center', pack: 'center' },
+            items: [{
+                xtype: 'panel',
+                width: 1240,
+                height: 1754,
+                html: '<canvas width=' + 1240 + ' height=' + 1754 + '></canvas><canvas style="display:none"></canvas>'
+            }]
         });
         getViewport().down('#wb-tabs').add(tab);
         tab.on('render', function () { wb.init(tab); });
@@ -391,6 +391,40 @@ Ext.define('wbs', {
                 if (wb) {
                     wb.gotoPage(data.page_no);
                     wb.tab.down('#wb-tb-pages').setValue(data.page_no);
+                }
+                break;
+            case 'click':
+                var wb = this.get(data.id);
+                if (wb) {
+                    var x = 0, y = 0;
+                    var tab = wb.tab;
+                    var ct = tab.items.first();
+                    var offset = wb.tab.items.first().getLocalXY();
+                    var cx = offset[0] + data.x;
+                    var cy = offset[1] + data.y;
+                    if (ct.getWidth() > tab.getWidth()) {
+                        x = cx - tab.getWidth();
+                        if (x < 0) {
+                            x = 0;
+                        } else {
+                            x += 50;
+                            cx += 50;
+                        }
+                    }
+                    if (ct.getHeight() > tab.getHeight()) {
+                        y = cy - tab.getHeight();
+                        if (y < 0) {
+                            y = 0;
+                        } else {
+                            y += 50;
+                            cy += 50;
+                        }
+                    }
+                    if (cx < tab.body.el.dom.scrollLeft || cx > (tab.body.el.dom.scrollLeft + tab.getWidth()))
+                        tab.body.el.dom.scrollLeft = x;
+                    if (cy < tab.body.el.dom.scrollTop || cy > (tab.body.el.dom.scrollTop + tab.getHeight()))
+                        tab.body.el.dom.scrollTop = y;
+                    console.log(x, y);
                 }
                 break;
         }
@@ -579,12 +613,15 @@ Ext.define('WB', {
         }
         me.canvas.onmouseup = function (e) {
             if (e.which == 1) {
+                if (me.creater == myid) {
+                    wbs.emit({ signal: 'click', id: me.id, page: me.activePageId, x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
+                }
                 if (!validDrawMode()) return;
                 if (capture && me.drawShape) {
                     me.drawShape.mouseup(e, me);
                     if (me.drawMode != WB.DrawMode.Text) {
                         me.getActivePage().getLayer(myid).push(me.drawShape);
-                        wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX, y: e.offsetY });
+                        wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
                         me.drawShape = null;
                         me.render();
                     }
