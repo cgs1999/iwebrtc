@@ -13,7 +13,7 @@ function join_user(user) {
         collapsible: true,
         frame: true,
         margin: 5,
-        html: '<video width="320" height="240"></video>',
+        html: '<video width="320" height="240" autoplay="autoplay"></video>',
         listeners: {
             render: function (c) {
                 user.pv = c.el.dom.getElementsByTagName('video')[0];
@@ -125,7 +125,7 @@ Ext.define('rtc', {
             collapsible: true,
             frame: true,
             margin: 5,
-            html: '<video width="320" height="240"></video>',
+            html: '<video width="320" height="240" autoplay="autoplay"></video>',
             listeners: {
                 render: function (c) {
                     me.localvideo = c.el.dom.getElementsByTagName('video')[0];
@@ -135,7 +135,7 @@ Ext.define('rtc', {
                             console.log(stream);
                             me.localstream = stream;
                             me.localvideo.src = URL.createObjectURL(stream);
-                            me.localvideo.play();
+                            //me.localvideo.play();
                             if (fn) fn();
                         },
                         function (e) {
@@ -193,7 +193,7 @@ Ext.define('rtc', {
         }
         user.pc.onaddstream = function (evt) {
             user.pv.src = URL.createObjectURL(evt.stream);
-            user.pv.play();
+            //user.pv.play();
         }
         //user.pc.onremovestream = function () { console.log('pc.onremovestream', arguments); }
         user.pc.addStream(this.localstream);
