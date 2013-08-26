@@ -40,6 +40,11 @@
                     cp.up('panel').up('panel').down('#wb-tb-color').el.dom.getElementsByTagName('span')[0].style.backgroundColor = cr;
                     cp.up('panel').up('panel').wb.color = cr;
                 }
+            },
+            'viewport #people-panel': {
+                expand: function (c) {
+                    Ext.Array.each(c.el.dom.getElementsByTagName('video'), function (video) { video.play(); });
+                }
             }
         });
     }
