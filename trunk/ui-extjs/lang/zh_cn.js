@@ -5,6 +5,8 @@
     sign_name_empty: '请输入您的名字',
     browse_support: '仅支持Chrome25+或者FireFox22+',
 
+    home: '主页',
+
     confirm: '确定',
     reset: '重置',
     option: '选项',

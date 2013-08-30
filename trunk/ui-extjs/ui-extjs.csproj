@@ -488,6 +488,9 @@
     <Content Include="lib\iwebrtc.js" />
     <Content Include="lib\json2.js" />
     <Content Include="lang\zh_cn.js" />
+    <Content Include="mobile\app.js" />
+    <Content Include="mobile\index.html" />
+    <Content Include="mobile\room.html" />
     <Content Include="pdfjs\hello.js" />
     <Content Include="pdfjs\index.html" />
     <Content Include="pdfjs\pdf.js" />
@@ -496,6 +499,8 @@
     <Content Include="socketio\socket.io.min.js" />
     <Content Include="socketio\WebSocketMain.swf" />
     <Content Include="socketio\WebSocketMainInsecure.swf" />
+    <Content Include="touch-2.2.1\resources\css\sencha-touch.css" />
+    <Content Include="touch-2.2.1\sencha-touch-all.js" />
     <Content Include="uconv.html" />
   </ItemGroup>
   <ItemGroup>
