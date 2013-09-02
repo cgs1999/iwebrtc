@@ -151,6 +151,8 @@ for(var i=0; i<4; i++) {
 io.sockets.on('connection', function(socket){
 	console.log("Connection " + socket.id + " accepted.");
 	
+	socket.setMaxListeners(0);
+	
 	socket.emit('session', { id: socket.id });
 	
 	socket.on('disconnect', function(){
