@@ -53,6 +53,8 @@
 
     OnOK: function (btn) {
         var o = btn.up('formpanel').getValues();
+        joined_room.no = o.no;
+        myname = o.name;
         Ext.Viewport.animateActiveItem({ xclass: 'iWebRTC.view.Main' }, { type: 'slide', direction: 'left' });
     },
 

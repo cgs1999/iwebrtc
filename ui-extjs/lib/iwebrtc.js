@@ -1,39 +1,23 @@
-﻿var ROLE = {
+﻿var ws_serv = 'ws://' + location.host;
+var joined_users = new Ext.util.HashMap();
+var socket = null;
+
+var ice_servs = { "iceServers": [{ "url": "stun:stun.l.google.com:19302"}] };
+var constraints = { video: { mandatory: { maxWidth: 320, maxHeight: 240, maxFrameRate: 5} }, audio: true };
+//https required
+//var constraints = { video: { mandatory: { chromeMediaSource: 'screen'} } };
+
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+window.URL = window.URL || window.webkitURL;
+window.RTCPeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+window.RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
+window.RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
+
+var ROLE = {
     SYSTEM: 1,
     SELF: 2,
     USER: 3
 };
-
-function join_user(user) {
-    chat.sys(strings.joinuser.format(user.name));
-
-    user.pc = null;
-    var panel = Ext.create('Ext.panel.Panel', {
-        title: user.name,
-        collapsible: true,
-        frame: true,
-        margin: 5,
-        html: '<video width="320" height="240" autoplay="autoplay"></video>',
-        listeners: {
-            render: function (c) {
-                user.pv = c.el.dom.getElementsByTagName('video')[0];
-                user.ui = c;
-            }
-        }
-    });
-    getViewport().down('#people-panel').add(panel);
-    joined_users.add(user.id, user);
-
-    return user;
-}
-function leave_user(id) {
-    var user = joined_users.get(id);
-    if (user) {
-        chat.sys(strings.leaveuser.format(user.name));
-        user.pc.close();
-        getViewport().down('#people-panel').remove(user.ui);
-    }
-}
 
 Ext.define('main', {
     singleton: true,
@@ -106,9 +90,15 @@ Ext.define('chat', {
         d['name'] = name;
         d['msg'] = msg;
         var grid = getViewport().down('#chat-grid');
-        grid.getStore().loadData([d], true);
-        if (grid.scroll) {
-            grid.scrollByDeltaY(grid.getScrollTarget().el.dom.scrollHeight);
+        var store = grid.getStore();
+        if (store.loadData) {
+            grid.getStore().loadData([d], true);
+            if (grid.scroll) {
+                grid.scrollByDeltaY(grid.getScrollTarget().el.dom.scrollHeight);
+            }
+        } else {
+            store.add(d);
+            grid.getScrollable().getScroller().scrollToEnd();
         }
     }
 });
@@ -137,6 +127,7 @@ Ext.define('rtc', {
                             me.localvideo.src = URL.createObjectURL(stream);
                             //me.localvideo.play();
                             if (fn) fn();
+                            chat.sys(strings.media_prepared);
                         },
                         function (e) {
                             chat.sys(strings.media_err);
@@ -147,6 +138,34 @@ Ext.define('rtc', {
             }
         });
         getViewport().down('#people-panel').add(panel);
+    },
+
+    init_mobile: function (fn) {
+        var me = this;
+        var container = Ext.Viewport.down('videocard > carousel');
+        var panel = Ext.create('Ext.Panel', {
+            items: [
+                { xtype: "titlebar", docked: "top", title: myname },
+                { xtype: 'panel', html: '<video width="320" height="240" autoplay="autoplay"></video>' }
+            ]
+        });
+        container.add(panel);
+
+        me.localvideo = panel.element.dom.getElementsByTagName('video')[0];
+        navigator.getUserMedia(
+            constraints,
+            function (stream) {
+                console.log(stream);
+                me.localstream = stream;
+                me.localvideo.src = URL.createObjectURL(stream);
+                if (fn) fn();
+                chat.sys(strings.media_prepared);
+            },
+            function (e) {
+                chat.sys(strings.media_err);
+                console.log(e);
+            }
+        );
     },
 
     signal: function (data) {
@@ -281,68 +300,7 @@ Ext.define('wbs', {
     create: function (creater, id, title, url, closable) {
         id = id || this.id()
         var wb = Ext.create('WB', { 'id': id, 'creater': creater, 'url': url });
-        var tab = Ext.create('Ext.panel.Panel', {
-            'title': title,
-            itemId: id,
-            'closable': closable,
-            tbar: [
-                {
-                    tooltip: strings.wb_cursor, iconCls: 'tb-cursor',
-                    handler: function () { wb.drawMode = WB.DrawMode.None; }
-                },
-				{
-				    tooltip: strings.wb_pen, iconCls: 'tb-pen',
-				    handler: function () { wb.drawMode = WB.DrawMode.Pen; }
-				},
-                {
-                    tooltip: strings.wb_line, iconCls: 'tb-line',
-                    handler: function () { wb.drawMode = WB.DrawMode.Line; }
-                },
-                {
-                    tooltip: strings.wb_rect, iconCls: 'tb-rect',
-                    handler: function () { wb.drawMode = WB.DrawMode.Rect; }
-                },
-                {
-                    tooltip: strings.wb_text, iconCls: 'tb-text',
-                    handler: function () { wb.drawMode = WB.DrawMode.Text; }
-                },
-                '-',
-                {
-                    itemId: 'wb-tb-color',
-                    menu: {
-                        xtype: 'colormenu',
-                        value: wb.color.substr(1)
-                    }
-                },
-                '-',
-                {
-                    xtype: 'combo',
-                    itemId: 'wb-tb-pages',
-                    width: 60,
-                    store: {
-                        type: 'store',
-                        fields: ['page_no'],
-                        data: [{ page_no: 1}]
-                    },
-                    disabled: !closable,
-                    queryMode: 'local',
-                    displayField: 'page_no',
-                    value: 1,
-                    editable: false
-                }
-            ],
-            autoScroll: true,
-            layout: { type: 'vbox', align: 'center', pack: 'center' },
-            items: [{
-                xtype: 'panel',
-                width: 1240,
-                height: 1754,
-                html: '<canvas width=' + 1240 + ' height=' + 1754 + '></canvas><canvas style="display:none"></canvas>'
-            }]
-        });
-        getViewport().down('#wb-tabs').add(tab);
-        tab.on('render', function () { wb.init(tab); });
-        getViewport().down('#wb-tabs').setActiveTab(tab);
+        wb_create_ui(wb, title, closable);
         return this.map.add(id, wb);
     },
 
@@ -563,14 +521,24 @@ Ext.define('WB', {
 
         panel.wb = me;
         me.tab = panel;
-        me.canvas = panel.el.dom.getElementsByTagName('canvas')[0];
+        if (panel.el) {
+            me.canvas = panel.el.dom.getElementsByTagName('canvas')[0];
+            me.img_canvas = panel.el.dom.getElementsByTagName('canvas')[1];
+
+            panel.down('#wb-tb-color').on('render', function (c) {
+                c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
+            });
+        } else {
+            me.canvas = panel.element.dom.getElementsByTagName('canvas')[0];
+            me.img_canvas = panel.element.dom.getElementsByTagName('canvas')[1];
+
+            panel.down('#wb-tb-color').on('painted', function (c) {
+                c.element.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
+            });
+        }
         me.ctx = me.canvas.getContext('2d');
-        me.img_canvas = panel.el.dom.getElementsByTagName('canvas')[1];
         me.img_ctx = me.img_canvas.getContext('2d');
 
-        panel.down('#wb-tb-color').on('render', function (c) {
-            c.el.dom.getElementsByTagName('span')[0].style.backgroundColor = me.color;
-        });
         //panel.on('resize', function (c, w, h) {
         //    if (!me.pdf) {
         //        me.canvas.setAttribute('width', w);
@@ -636,6 +604,9 @@ Ext.define('WB', {
         me.loadPdf();
 
         return me;
+    },
+
+    init_mobile: function (panel) {
     },
 
     finishText: function () {

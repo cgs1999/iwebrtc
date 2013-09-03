@@ -36,12 +36,13 @@
     anonymous: '匿名',
     send_speak: '发送消息',
 
+    media_prepared: '音视频设备已就绪',
     media_err: '获取本地音视频设备失败',
     connecting: '已连接到会议室服务器',
     disconnect: '已与会议室服务器断开连接',
     connfailed: '连接会议室服务器失败',
-    enterroom: '您已加入会议室【{0}】',
+    enterroom: '您已加入【{0}】',
     leaveroom: '您已离开会议室',
-    joinuser: '【{0}】已加入会议',
-    leaveuser: '【{0}】已离开会议'
+    joinuser: '【{0}】已加入',
+    leaveuser: '【{0}】已离开'
 }

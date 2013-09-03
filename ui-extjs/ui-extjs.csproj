@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="app\store\" />
+    <Folder Include="mobile\app\controller\" />
     <Folder Include="Properties\" />
     <Folder Include="upload\" />
   </ItemGroup>
@@ -68,6 +69,7 @@
     <Content Include="app\images\wb.png" />
     <Content Include="app\images\opt.png" />
     <Content Include="app\style.css" />
+    <Content Include="app\ui.js" />
     <Content Include="app\view\Viewport.js" />
     <Content Include="lib\config.js" />
     <Content Include="extjs-4.2.1\ext-all.js" />
@@ -489,8 +491,14 @@
     <Content Include="lib\json2.js" />
     <Content Include="lang\zh_cn.js" />
     <Content Include="mobile\app.js" />
+    <Content Include="mobile\app\ui.js" />
+    <Content Include="mobile\app\view\HomeCard.js" />
+    <Content Include="mobile\app\view\Login.js" />
+    <Content Include="mobile\app\view\Main.js" />
+    <Content Include="mobile\app\view\MsgCard.js" />
+    <Content Include="mobile\app\view\VideoCard.js" />
+    <Content Include="mobile\app\view\WbCard.js" />
     <Content Include="mobile\index.html" />
-    <Content Include="mobile\room.html" />
     <Content Include="pdfjs\hello.js" />
     <Content Include="pdfjs\index.html" />
     <Content Include="pdfjs\pdf.js" />
@@ -501,6 +509,8 @@
     <Content Include="socketio\WebSocketMainInsecure.swf" />
     <Content Include="touch-2.2.1\resources\css\sencha-touch.css" />
     <Content Include="touch-2.2.1\sencha-touch-all.js" />
+    <Content Include="touch-2.2.1\ux\Ext.form.ux.touch.ColorPickerField.css" />
+    <Content Include="touch-2.2.1\ux\Ext.form.ux.touch.ColorPickerField.js" />
     <Content Include="uconv.html" />
   </ItemGroup>
   <ItemGroup>
