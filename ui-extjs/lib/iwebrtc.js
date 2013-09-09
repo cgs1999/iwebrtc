@@ -26,7 +26,12 @@ Ext.define('main', {
         socket = io.connect(ws_serv);
         socket.on('connect', function () { chat.sys(strings.connecting); });
         socket.on('disconnect', function () { chat.sys(strings.disconnect); });
-        socket.on('session', function (data) { myid = data.id; });
+        socket.on('session', function (data) {
+            myid = data.id;
+            if (Ext.Viewport) {
+                Ext.Viewport.setMasked(false);
+            }
+        });
         socket.on('info_ok', function (data) {
             joined_room = Ext.apply(joined_room, data);
             socket.emit('join', { no: joined_room.no, name: myname });
@@ -307,12 +312,13 @@ Ext.define('wbs', {
     close: function (id) {
         var wb = this.get(id);
         if (wb) {
-            wb.tab.close();
+            if (wb.tab.close) wb.tab.close();
+            else wb.tab.up('carousel').remove(wb.tab);
             this.map.removeAtKey(id);
         }
     },
 
-    id: function () { return Ext.id(); },
+    id: function () { return Ext.id() + '-' + Math.random(); },
 
     get: function (id) { return this.map.get(id); },
 
@@ -607,6 +613,85 @@ Ext.define('WB', {
     },
 
     init_mobile: function (panel) {
+        var me = this;
+
+        panel.wb = me;
+        me.tab = panel;
+
+        me.canvas = panel.element.dom.getElementsByTagName('canvas')[0];
+        me.img_canvas = panel.element.dom.getElementsByTagName('canvas')[1];
+        me.ctx = me.canvas.getContext('2d');
+        me.img_ctx = me.img_canvas.getContext('2d');
+
+        panel.on('destroy', function () {
+            if (me.creater == myid) {
+                wbs.del(me.id);
+            }
+        });
+
+        function validDrawMode() {
+            return ((me.drawMode === WB.DrawMode.Pen)
+            || (me.drawMode === WB.DrawMode.Line)
+            || (me.drawMode === WB.DrawMode.Rect)
+            || (me.drawMode === WB.DrawMode.Text));
+        }
+
+        function simulatedEvent(ev) {
+            var o = ev.changedTouches[0];
+            var e = {
+                layerX: o.clientX - getXPos(me.canvas),
+                layerY: o.clientY - getYPos(me.canvas),
+                pageX: o.clientX,
+                pageY: o.clientY
+            };
+            return e;
+        }
+
+        var capture = false;
+        me.canvas.addEventListener('touchstart', function (ev) {
+            var e = simulatedEvent(ev);
+            if (!validDrawMode()) return;
+            capture = true;
+            me.drawShape = Ext.create(me.drawMode, { color: me.color });
+            me.drawShape.mousedown(e);
+            //chat.sys('touchstart:' + e.layerX + ',' + e.layerY);
+        }, true);
+        me.canvas.addEventListener('touchmove', function (ev) {
+            var e = simulatedEvent(ev);
+            if (!validDrawMode()) return;
+            if (capture && me.drawShape) {
+                me.drawShape.mousemove(e);
+                me.render(true);
+            }
+            //chat.sys('touchmove:' + e.layerX + ',' + e.layerY);
+        }, true);
+        me.canvas.addEventListener('touchend', function (ev) {
+            var e = simulatedEvent(ev);
+            if (me.creater == myid) {
+                wbs.emit({ signal: 'click', id: me.id, page: me.activePageId, x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
+            }
+            if (!validDrawMode()) return;
+            if (capture && me.drawShape) {
+                me.drawShape.mouseup(e, me);
+                if (me.drawMode != WB.DrawMode.Text) {
+                    me.getActivePage().getLayer(myid).push(me.drawShape);
+                    wbs.emit({ signal: 'draw', id: me.id, page: me.activePageId, layer: myid, shape: me.drawShape.pack(), x: e.offsetX || e.layerX, y: e.offsetY || e.layerY });
+                    me.drawShape = null;
+                    me.render();
+                }
+            }
+            capture = false;
+            //chat.sys('touchend:' + e.layerX + ',' + e.layerY);
+        }, true);
+        me.canvas.addEventListener('touchcancel', function (ev) {
+            var e = simulatedEvent(ev);
+            capture = false;
+            //chat.sys('touchcancel:' + e.layerX + ',' + e.layerY);
+        }, true);
+
+        me.loadPdf();
+
+        return me;
     },
 
     finishText: function () {
@@ -952,39 +1037,8 @@ Ext.define('WB.Text', {
     mouseup: function (e, wb) {
         this.x = e.offsetX || e.layerX;
         this.y = e.offsetY || e.layerY;
-        var me = this;
 
-        function onOk(btn) {
-            var w = btn.up('window');
-            me.text = w.down('textarea').getValue();
-            wb.finishText();
-            w.close();
-        }
-
-        Ext.create('Ext.window.Window', {
-            modal: true,
-            closable: false,
-            draggable: false,
-            border: false,
-            resizable: false,
-            width: 320,
-            height: 120,
-            x: e.pageX,
-            y: e.pageY,
-            layout: 'fit',
-            items: [
-                { xtype: 'textarea', style: { color: me.color + ' !important', font: me.font + ' !important' } }
-            ],
-            buttons: [
-                { text: strings.ok, handler: onOk },
-                { text: strings.cancel, handler: function (btn) { btn.up('window').close(); } }
-            ],
-            listeners: {
-                show: function (w) {
-                    w.down('textarea').focus();
-                }
-            }
-        }).show();
+        wb_text_input(this, e, wb);
 
         return this;
     }
