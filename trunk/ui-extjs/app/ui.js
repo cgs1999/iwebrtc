@@ -93,3 +93,37 @@ function wb_create_ui(wb, title, closable) {
     tab.on('render', function () { wb.init(tab); });
     getViewport().down('#wb-tabs').setActiveTab(tab);
 }
+
+function wb_text_input(figure, e, wb) {
+    function onOk(btn) {
+        var w = btn.up('window');
+        figure.text = w.down('textarea').getValue();
+        wb.finishText();
+        w.close();
+    }
+
+    Ext.create('Ext.window.Window', {
+        modal: true,
+        closable: false,
+        draggable: false,
+        border: false,
+        resizable: false,
+        width: 320,
+        height: 120,
+        x: e.pageX,
+        y: e.pageY,
+        layout: 'fit',
+        items: [
+                { xtype: 'textarea', style: { color: figure.color + ' !important', font: figure.font + ' !important'} }
+            ],
+        buttons: [
+                { text: strings.ok, handler: onOk },
+                { text: strings.cancel, handler: function (btn) { btn.up('window').close(); } }
+            ],
+        listeners: {
+            show: function (w) {
+                w.down('textarea').focus();
+            }
+        }
+    }).show();
+}

@@ -12,6 +12,7 @@
         ],
         listeners: {
             'painted': function (c) {
+                Ext.Viewport.setMasked({ xtype: 'loadmask' });
                 rtc.init_mobile(function () { main.connect(); });
             }
         }

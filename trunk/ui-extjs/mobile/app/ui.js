@@ -28,6 +28,24 @@ function leave_user(id) {
     }
 }
 
+function getXPos(el) {
+    var x = 0;
+    while (el != null) {
+        x += el.offsetLeft;
+        el = el.offsetParent;
+    }
+    return x;
+}
+
+function getYPos(el) {
+    var x = 0;
+    while (el != null) {
+        x += el.offsetTop;
+        el = el.offsetParent;
+    }
+    return x;
+}
+
 function wb_create_ui(wb, title, closable) {
     var tab = Ext.create('Ext.Panel', {
         itemId: wb.id,
@@ -54,15 +72,38 @@ function wb_create_ui(wb, title, closable) {
                         xtype: 'segmentedbutton',
                         defaults: { iconAlign: 'center', style: 'padding: 0 2px' },
                         items: [
-                            { iconCls: 'tb-cursor' },
-                            { iconCls: 'tb-pen', pressed: true },
-                            { iconCls: 'tb-line' },
-                            { iconCls: 'tb-rect' },
-                            { iconCls: 'tb-text' }
+                            {
+                                iconCls: 'tb-cursor',
+                                handler: function () { wb.drawMode = WB.DrawMode.None; }
+                            },
+                            {
+                                iconCls: 'tb-pen', pressed: true,
+                                handler: function () { wb.drawMode = WB.DrawMode.Pen; }
+                            },
+                            {
+                                iconCls: 'tb-line',
+                                handler: function () { wb.drawMode = WB.DrawMode.Line; }
+                            },
+                            {
+                                iconCls: 'tb-rect',
+                                handler: function () { wb.drawMode = WB.DrawMode.Rect; }
+                            },
+                            {
+                                iconCls: 'tb-text',
+                                handler: function () { wb.drawMode = WB.DrawMode.Text; }
+                            }
                         ]
                     },
                     { xtype: 'spacer' },
-                    { ui: 'decline', iconAlign: 'center', iconCls: 'delete' }
+                    {
+                        ui: 'decline', iconAlign: 'center', iconCls: 'delete', hidden: !closable,
+                        handler: function () {
+                            if (wb.creater == myid) {
+                                wb.tab.up('carousel').remove(wb.tab);
+                                wbs.del(wb.id);
+                            }
+                        }
+                    }
                 ]
             },
             {
@@ -71,8 +112,16 @@ function wb_create_ui(wb, title, closable) {
             }
         ]
     });
-    //tab.title = title;
     getViewport().down('#wb-tabs').add(tab);
     wb.init_mobile(tab);
     getViewport().down('#wb-tabs').setActiveItem(tab);
+}
+
+function wb_text_input(figure, e, wb) {
+    Ext.Msg.prompt('', '', function (btn, text) {
+        if (btn == 'ok') {
+            figure.text = text;
+            wb.finishText();
+        }
+    });
 }
