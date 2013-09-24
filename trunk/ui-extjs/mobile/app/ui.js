@@ -50,6 +50,7 @@ function wb_create_ui(wb, title, closable) {
     var tab = Ext.create('Ext.Panel', {
         itemId: wb.id,
         layout: 'fit',
+        hidden: true,
         items: [
             { itemId: 'txt-title', xtype: 'hiddenfield', value: title },
             {
@@ -99,7 +100,7 @@ function wb_create_ui(wb, title, closable) {
                         ui: 'decline', iconAlign: 'center', iconCls: 'delete', hidden: !closable,
                         handler: function () {
                             if (wb.creater == myid) {
-                                wb.tab.up('carousel').remove(wb.tab);
+                                wb.tab.up('#wb-tabs').remove(wb.tab);
                                 wbs.del(wb.id);
                             }
                         }

@@ -252,8 +252,10 @@ Ext.define('wbs', {
     singleton: true,
     map: new Ext.util.HashMap(),
 
+    counter: 1,
+
     add: function (id, url) {
-        var title = strings.wb;
+        var title = strings.wb + this.counter++;
         var wb = this.create(myid, id, title, url, true);
         this.emit({ signal: 'new', id: wb.id, 'title': title, 'url': url, creater: wb.creater });
         return wb;
@@ -309,12 +311,20 @@ Ext.define('wbs', {
         return this.map.add(id, wb);
     },
 
+    mapRemove: function (key) {
+        if (this.map.removeByKey) {
+            this.map.removeByKey(key);
+        } else {
+            this.map.removeAtKey(key);
+        }
+    },
+
     close: function (id) {
         var wb = this.get(id);
         if (wb) {
             if (wb.tab.close) wb.tab.close();
-            else wb.tab.up('carousel').remove(wb.tab);
-            this.map.removeAtKey(id);
+            else wb.tab.up('#wb-tabs').remove(wb.tab);
+            this.mapRemove(id);
         }
     },
 
@@ -323,7 +333,7 @@ Ext.define('wbs', {
     get: function (id) { return this.map.get(id); },
 
     del: function (id) {
-        this.map.removeAtKey(id);
+        this.mapRemove(id);
         return this.emit({ signal: 'del', 'id': id });
     },
 
@@ -623,11 +633,11 @@ Ext.define('WB', {
         me.ctx = me.canvas.getContext('2d');
         me.img_ctx = me.img_canvas.getContext('2d');
 
-        panel.on('destroy', function () {
-            if (me.creater == myid) {
-                wbs.del(me.id);
-            }
-        });
+        //panel.on('destroy', function () {
+        //    if (me.creater == myid) {
+        //        wbs.del(me.id);
+        //    }
+        //});
 
         function validDrawMode() {
             return ((me.drawMode === WB.DrawMode.Pen)
