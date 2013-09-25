@@ -63,6 +63,7 @@ function wb_create_ui(wb, title, closable) {
                         itemId: 'wb-tb-pages',
                         displayField: 'page_no',
                         disabled: !closable,
+                        hidden: true,
                         store: {
                             data: [{ page_no: 1}]
                         },
