@@ -648,9 +648,14 @@ Ext.define('WB', {
 
         function simulatedEvent(ev) {
             var o = ev.changedTouches[0];
+            var scrollable = me.tab.down('#wb-canvas').getScrollable();
+            var translate = { x: 0, y: 0 };
+            if (scrollable) {
+                translate = scrollable.getScroller().getTranslatable();
+            }
             var e = {
-                layerX: o.clientX - getXPos(me.canvas),
-                layerY: o.clientY - getYPos(me.canvas),
+                layerX: o.clientX - getXPos(me.canvas) - translate.x,
+                layerY: o.clientY - getYPos(me.canvas) - translate.y,
                 pageX: o.clientX,
                 pageY: o.clientY
             };

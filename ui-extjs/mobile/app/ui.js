@@ -76,23 +76,38 @@ function wb_create_ui(wb, title, closable) {
                         items: [
                             {
                                 iconCls: 'tb-cursor',
-                                handler: function () { wb.drawMode = WB.DrawMode.None; }
+                                handler: function () {
+                                    wb.drawMode = WB.DrawMode.None;
+                                    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(false);
+                                }
                             },
                             {
                                 iconCls: 'tb-pen', pressed: true,
-                                handler: function () { wb.drawMode = WB.DrawMode.Pen; }
+                                handler: function () {
+                                    wb.drawMode = WB.DrawMode.Pen;
+                                    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(true);
+                                }
                             },
                             {
                                 iconCls: 'tb-line',
-                                handler: function () { wb.drawMode = WB.DrawMode.Line; }
+                                handler: function () {
+                                    wb.drawMode = WB.DrawMode.Line;
+                                    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(true);
+                                }
                             },
                             {
                                 iconCls: 'tb-rect',
-                                handler: function () { wb.drawMode = WB.DrawMode.Rect; }
+                                handler: function () {
+                                    wb.drawMode = WB.DrawMode.Rect;
+                                    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(true);
+                                }
                             },
                             {
                                 iconCls: 'tb-text',
-                                handler: function () { wb.drawMode = WB.DrawMode.Text; }
+                                handler: function () {
+                                    wb.drawMode = WB.DrawMode.Text;
+                                    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(true);
+                                }
                             }
                         ]
                     },
@@ -109,7 +124,7 @@ function wb_create_ui(wb, title, closable) {
                 ]
             },
             {
-                xtype: 'panel', width: 1240, height: 1750,
+                itemId: 'wb-canvas', xtype: 'panel', scrollable: 'both', //width: 1240, height: 1750,
                 html: '<canvas width=' + 1240 + ' height=' + 1754 + '></canvas><canvas style="display:none"></canvas>'
             }
         ]
@@ -117,6 +132,8 @@ function wb_create_ui(wb, title, closable) {
     getViewport().down('#wb-tabs').add(tab);
     wb.init_mobile(tab);
     getViewport().down('#wb-tabs').setActiveItem(tab);
+
+    tab.down('#wb-canvas').getScrollable().getScroller().setDisabled(true);
 }
 
 function wb_text_input(figure, e, wb) {
