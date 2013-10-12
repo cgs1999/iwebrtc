@@ -12,12 +12,38 @@ window.URL = window.URL || window.webkitURL;
 window.RTCPeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
 window.RTCIceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 window.RTCSessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
+window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
 
 var ROLE = {
     SYSTEM: 1,
     SELF: 2,
     USER: 3
 };
+
+volume = (function () {
+    var ctx = new AudioContext();
+    var sine = ctx.createOscillator();
+    var gain = ctx.createGainNode();
+    sine.connect(gain);
+    gain.connect(ctx.destination);
+
+    return {
+        mute: function () {
+            sine.noteOff(0);
+        },
+        play: function () {
+            sine.noteOn(0);
+        },
+        set: function (val) {
+            gain.gain.value = val;
+        },
+        get: function () {
+            return gain.gain.value;
+        }
+    };
+})();
+
+//volume.set(0);
 
 Ext.define('main', {
     singleton: true,
@@ -28,9 +54,9 @@ Ext.define('main', {
         socket.on('disconnect', function () { chat.sys(strings.disconnect); });
         socket.on('session', function (data) {
             myid = data.id;
-            if (Ext.Viewport) {
+            try {
                 Ext.Viewport.setMasked(false);
-            }
+            } catch (e) {}
         });
         socket.on('info_ok', function (data) {
             joined_room = Ext.apply(joined_room, data);
@@ -218,6 +244,7 @@ Ext.define('rtc', {
         user.pc.onaddstream = function (evt) {
             user.pv.src = URL.createObjectURL(evt.stream);
             //user.pv.play();
+            //volume.set(0.9);
         }
         //user.pc.onremovestream = function () { console.log('pc.onremovestream', arguments); }
         user.pc.addStream(this.localstream);
