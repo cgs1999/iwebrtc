@@ -3,18 +3,6 @@
 
     user.pc = null;
 
-    var container = Ext.Viewport.down('videocard > carousel');
-    var panel = Ext.create('Ext.Panel', {
-        items: [
-            { xtype: "titlebar", docked: "top", title: user.name },
-            { xtype: 'panel', html: '<video width="320" height="240" autoplay="autoplay"></video>' }
-        ]
-    });
-    container.add(panel);
-
-    user.pv = panel.element.dom.getElementsByTagName('video')[0];
-    user.ui = panel;
-
     joined_users.add(user.id, user);
 
     return user;
@@ -24,7 +12,9 @@ function leave_user(id) {
     if (user) {
         chat.sys(strings.leaveuser.format(user.name));
         user.pc.close();
-        Ext.Viewport.down('videocard > carousel').remove(user.ui);
+        var store = Ext.Viewport.down('videocard > dataview').getStore();
+        var record = store.findRecord('url', user.src);
+        store.remove(record);
     }
 }
 

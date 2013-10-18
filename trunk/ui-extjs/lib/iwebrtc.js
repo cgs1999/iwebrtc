@@ -173,22 +173,16 @@ Ext.define('rtc', {
 
     init_mobile: function (fn) {
         var me = this;
-        var container = Ext.Viewport.down('videocard > carousel');
-        var panel = Ext.create('Ext.Panel', {
-            items: [
-                { xtype: "titlebar", docked: "top", title: myname },
-                { xtype: 'panel', html: '<video width="320" height="240" autoplay="autoplay"></video>' }
-            ]
-        });
-        container.add(panel);
 
-        me.localvideo = panel.element.dom.getElementsByTagName('video')[0];
+        var container = Ext.Viewport.down('videocard > dataview');
+        var store = container.getStore();
+
         navigator.getUserMedia(
             constraints,
             function (stream) {
                 console.log(stream);
                 me.localstream = stream;
-                me.localvideo.src = URL.createObjectURL(stream);
+                store.add({ url: URL.createObjectURL(stream), name: myname });
                 if (fn) fn();
                 chat.sys(strings.media_prepared);
             },
@@ -242,8 +236,13 @@ Ext.define('rtc', {
             }
         }
         user.pc.onaddstream = function (evt) {
-            user.pv.src = URL.createObjectURL(evt.stream);
-            //user.pv.play();
+            if (user.pv) {
+                user.pv.src = URL.createObjectURL(evt.stream);
+            } else {
+                user.src = URL.createObjectURL(evt.stream);
+                Ext.Viewport.down('videocard > dataview').getStore().add({ url: user.src, name: user.name });
+            }
+
             //volume.set(0.9);
         }
         //user.pc.onremovestream = function () { console.log('pc.onremovestream', arguments); }
