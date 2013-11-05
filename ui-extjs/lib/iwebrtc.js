@@ -146,7 +146,7 @@ Ext.define('rtc', {
             collapsible: true,
             frame: true,
             margin: 5,
-            html: '<video width="320" height="240" autoplay="autoplay"></video>',
+            html: '<video width="320" height="240"></video>',
             listeners: {
                 render: function (c) {
                     me.localvideo = c.el.dom.getElementsByTagName('video')[0];
@@ -156,7 +156,8 @@ Ext.define('rtc', {
                             console.log(stream);
                             me.localstream = stream;
                             me.localvideo.src = URL.createObjectURL(stream);
-                            //me.localvideo.play();
+                            rtc.localvideo.volume = 0;
+                            me.localvideo.play();
                             if (fn) fn();
                             chat.sys(strings.media_prepared);
                         },
@@ -182,7 +183,7 @@ Ext.define('rtc', {
             function (stream) {
                 console.log(stream);
                 me.localstream = stream;
-                store.add({ url: URL.createObjectURL(stream), name: myname });
+                //store.add({ url: URL.createObjectURL(stream), name: myname, id: myid });
                 if (fn) fn();
                 chat.sys(strings.media_prepared);
             },
@@ -240,7 +241,7 @@ Ext.define('rtc', {
                 user.pv.src = URL.createObjectURL(evt.stream);
             } else {
                 user.src = URL.createObjectURL(evt.stream);
-                Ext.Viewport.down('videocard > dataview').getStore().add({ url: user.src, name: user.name });
+                Ext.Viewport.down('videocard > dataview').getStore().add({ url: user.src, name: user.name, id: user.id });
             }
 
             //volume.set(0.9);
